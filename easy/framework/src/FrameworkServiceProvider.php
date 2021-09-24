@@ -4,8 +4,9 @@ namespace Easy\Framework;
 
 use Illuminate\Support\ServiceProvider;
 use Easy\Framework\Console\Commands\InstallFramework;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class FrameworkServiceProvider extends ServiceProvider
+class FrameworkServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register services.
@@ -29,5 +30,14 @@ class FrameworkServiceProvider extends ServiceProvider
                 InstallFramework::class
             ]);
         }
+    }
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [InstallFramework::class];
     }
 }

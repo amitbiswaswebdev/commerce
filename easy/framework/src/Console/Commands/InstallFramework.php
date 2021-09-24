@@ -4,7 +4,7 @@ namespace Easy\Framework\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-// use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 // use Illuminate\Support\Facades\Log;
 
@@ -45,7 +45,6 @@ class InstallFramework extends Command
     {
         return $this->installInertiaVueStack();
     }
-
     
     /**
      * Install the Inertia Vue Breeze stack.
@@ -77,9 +76,12 @@ class InstallFramework extends Command
             ] + $packages;
         });
 
+        //Middleware...
+        $this->installMiddlewareAfter('SubstituteBindings::class', '\Easy\Framework\Http\Middleware\HandleInertiaRequests::class');
+
         // Views...
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/admin'));
-        (new Filesystem)->copyDirectory(__DIR__.self::PATH.'resources/views/admin', resource_path('views/admin'));
+        (new Filesystem)->ensureDirectoryExists(resource_path('views/'));
+        (new Filesystem)->copyDirectory(__DIR__.self::PATH.'resources/views/', resource_path('views/'));
 
         // Tailwind / Webpack...
         copy(__DIR__.self::PATH.'tailwind.config.js', base_path('tailwind.config.js'));
@@ -92,7 +94,7 @@ class InstallFramework extends Command
 
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));
         (new Filesystem)->copyDirectory(__DIR__.self::PATH.'resources/js', resource_path('js'));
-
+        
         $this->info('Project scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
     }
@@ -152,5 +154,35 @@ class InstallFramework extends Command
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
+    }
+
+    /**
+     * Install the middleware to a group in the application Http Kernel.
+     *
+     * @param  string  $after
+     * @param  string  $name
+     * @param  string  $group
+     * @return void
+     */
+    protected function installMiddlewareAfter($after, $name, $group = 'web')
+    {
+        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
+
+        $middlewareGroups = Str::before(Str::after($httpKernel, '$middlewareGroups = ['), '];');
+        $middlewareGroup = Str::before(Str::after($middlewareGroups, "'$group' => ["), '],');
+
+        if (! Str::contains($middlewareGroup, $name)) {
+            $modifiedMiddlewareGroup = str_replace(
+                $after.',',
+                $after.','.PHP_EOL.'            '.$name.',',
+                $middlewareGroup,
+            );
+
+            file_put_contents(app_path('Http/Kernel.php'), str_replace(
+                $middlewareGroups,
+                str_replace($middlewareGroup, $modifiedMiddlewareGroup, $middlewareGroups),
+                $httpKernel
+            ));
+        }
     }
 }
