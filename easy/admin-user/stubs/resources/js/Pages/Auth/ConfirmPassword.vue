@@ -50,7 +50,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post(this.route('password.confirm'), {
+            this.form.post(this.route('admin.password.confirm'), {
                 onFinish: () => this.form.reset(),
             })
         }

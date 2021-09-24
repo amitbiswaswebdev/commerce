@@ -76,9 +76,6 @@ class InstallFramework extends Command
             ] + $packages;
         });
 
-        //Middleware...
-        $this->installMiddlewareAfter('SubstituteBindings::class', '\Easy\Framework\Http\Middleware\HandleInertiaRequests::class');
-
         // Views...
         (new Filesystem)->ensureDirectoryExists(resource_path('views/'));
         (new Filesystem)->copyDirectory(__DIR__.self::PATH.'resources/views/', resource_path('views/'));

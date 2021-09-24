@@ -1,6 +1,6 @@
 <?php
 
-namespace Easy\Framework\Http\Controllers\Auth;
+namespace Easy\AdminUser\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Log;
 
 class RegisteredUserController extends Controller
 {
@@ -42,16 +43,18 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+        } catch (\Throwable $th) {
+            Log::debug($th);
+            return back()->with('status', 'failed');
+        }
         event(new Registered($user));
-
-        Auth::login($user);
-
+        Auth::guard('web')->login($user);
         return redirect(RouteServiceProvider::HOME);
     }
 }

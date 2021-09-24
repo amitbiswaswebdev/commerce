@@ -4,9 +4,10 @@ namespace Easy\Framework;
 
 use Illuminate\Support\ServiceProvider;
 use Easy\Framework\Console\Commands\InstallFramework;
-use Illuminate\Contracts\Support\DeferrableProvider;
+use Easy\Framework\Http\Middleware\HandleInertiaRequests;
+use Illuminate\Contracts\Http\Kernel;
 
-class FrameworkServiceProvider extends ServiceProvider implements DeferrableProvider
+class FrameworkServiceProvider extends ServiceProvider 
 {
     /**
      * Register services.
@@ -25,19 +26,19 @@ class FrameworkServiceProvider extends ServiceProvider implements DeferrableProv
      */
     public function boot()
     {
+        $this->bootInertia();
+        
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallFramework::class
             ]);
         }
     }
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
+
+    protected function bootInertia()
     {
-        return [InstallFramework::class];
+        $kernel = $this->app->make(Kernel::class);
+        $kernel->appendMiddlewareToGroup('web', HandleInertiaRequests::class);
+        $kernel->appendToMiddlewarePriority(HandleInertiaRequests::class);
     }
 }
