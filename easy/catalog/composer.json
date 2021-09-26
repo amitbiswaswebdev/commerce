@@ -1,27 +1,29 @@
 {
-    "name": "easy/customer",
-    "description": "E-commerce customer",
-    "keywords": ["laravel", "e-commerce"],
+    "name": "easy/catalog",
+    "description": "Ecommerce catalog",
+    "keywords": ["laravel", "ecommerce"],
     "license": "MIT",
     "authors": [
         {
-            "name": "Amit Biswas",
+            "name": "amitbiswaswebdev",
             "email": "amit.biswas.webdev@gmail.com"
         }
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "easy/theme": "*"
+        "illuminate/filesystem": "^8.42",
+        "illuminate/support": "^8.42",
+        "illuminate/validation": "^8.42"
     },
     "autoload": {
         "psr-4": {
-            "Easy\\Customer\\": "src/"
+            "Easy\\Catalog\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Easy\\Customer\\CustomerServiceProvider"
+                "Easy\\Catalog\\CatalogServiceProvider"
             ]
         }
     },

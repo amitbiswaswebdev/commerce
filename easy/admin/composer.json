@@ -1,19 +1,18 @@
 {
     "name": "easy/admin",
-    "description": "Ecommerce admin",
-    "keywords": ["laravel", "ecommerce"],
+    "description": "E-commerce admin",
+    "keywords": ["laravel", "e-commerce"],
     "license": "MIT",
     "authors": [
         {
-            "name": "amitbiswaswebdev",
+            "name": "Amit Biswas",
             "email": "amit.biswas.webdev@gmail.com"
         }
     ],
     "require": {
         "php": "^7.3|^8.0",
-        "illuminate/filesystem": "^8.42",
-        "illuminate/support": "^8.42",
-        "illuminate/validation": "^8.42"
+        "easy/theme": "*",
+        "easy/customer": "*"
     },
     "autoload": {
         "psr-4": {

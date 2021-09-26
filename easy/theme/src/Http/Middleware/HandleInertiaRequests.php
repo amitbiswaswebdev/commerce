@@ -4,16 +4,25 @@ namespace Easy\Theme\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Illuminate\Support\Facades\Log;
+use Easy\Theme\Contracts\TreeInterface;
 
+/**
+ * HandleInertiaRequests
+ */
 class HandleInertiaRequests extends Middleware
 {
+    protected $tree;
     /**
      * The root template that is loaded on the first page visit.
      *
      * @var string
      */
     protected $rootView = 'app';
+
+    public function __construct(TreeInterface $treeInterface)
+    {
+        $this->tree = $treeInterface;
+    }
 
     /**
      * Determine the current asset version.
@@ -34,11 +43,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        Log::error($request->user());
+        $admin = $request->user('admin');
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $admin,
             ],
+            'menu' => ($admin) ? $this->tree->getTree(config('menu'), true) : null
         ]);
     }
 }
