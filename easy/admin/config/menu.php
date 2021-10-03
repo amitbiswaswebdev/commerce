@@ -7,5 +7,5 @@ return [
         'name' => 'Dashboard',
         'route' => 'admin.dashboard',
         'parent_id' => 0
-    ]
+    ],
 ];

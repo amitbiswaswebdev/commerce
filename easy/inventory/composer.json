@@ -1,7 +1,7 @@
 {
-    "name": "easy/catalog",
-    "description": "Ecommerce catalog",
-    "keywords": ["laravel", "ecommerce"],
+    "name": "easy/inventory",
+    "description": "E-commerce inventory",
+    "keywords": ["laravel", "e-commerce"],
     "license": "MIT",
     "authors": [
         {
@@ -17,13 +17,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Easy\\Catalog\\": "src/"
+            "Easy\\Inventory\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Easy\\Catalog\\CatalogServiceProvider"
+                "Easy\\Inventory\\InventoryServiceProvider"
             ]
         }
     },

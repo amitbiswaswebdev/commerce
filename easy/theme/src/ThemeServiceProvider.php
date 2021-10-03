@@ -45,6 +45,7 @@ class ThemeServiceProvider extends ServiceProvider
             ]);
 
             $this->publishes([
+                __DIR__.'/../stubs/resources' => resource_path('/'),
                 __DIR__.'/../config/menu.php' => config_path('menu.php'),
             ], 'theme');
         }

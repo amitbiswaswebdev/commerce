@@ -1,0 +1,35 @@
+{
+    "name": "easy/category",
+    "description": "E-commerce category",
+    "keywords": ["laravel", "e-commerce"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "amitbiswaswebdev",
+            "email": "amit.biswas.webdev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/filesystem": "^8.42",
+        "illuminate/support": "^8.42",
+        "illuminate/validation": "^8.42"
+    },
+    "autoload": {
+        "psr-4": {
+            "Easy\\Category\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Easy\\Category\\CategoryServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

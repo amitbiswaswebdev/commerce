@@ -3,15 +3,20 @@
 namespace Easy\Theme\Service;
 
 use Easy\Theme\Contracts\TreeInterface;
-
+/**
+ * Tree
+ */
 class Tree implements TreeInterface
 {
+    /**
+     * @inheritDoc
+     */
     public function getTree(array $arrayList,bool $isSortRequired = false) : array
     {
         $new = [];
-        // if ($isSortRequired) {
-        //     $arrayList = array_multisort(array_column($arrayList, 'sort_order'), SORT_ASC, $arrayList);
-        // }
+        if ($isSortRequired && is_array($arrayList) && sizeof($arrayList) > 1) {
+            array_multisort(array_column($arrayList, 'sort_order'), SORT_ASC, $arrayList);
+        }
         if (sizeof($arrayList) > 0) {
             foreach ($arrayList as $arrayItem){
                 $arrayItem['children'] = [];

@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $admin,
             ],
-            'menu' => ($admin) ? $this->tree->getTree(config('menu'), true) : null
+            'menu' => ($admin) ? $this->tree->getTree(config('menu'), true) : []
         ]);
     }
 }

@@ -19,6 +19,7 @@ mix.js('resources/js/admin.js', 'public/js')
         require('tailwindcss'),
         require('autoprefixer'),
     ])
+    .sass('resources/css/material.scss', 'public/css/material.css')
     .webpackConfig(require('./webpack.config'));
 
 if (mix.inProduction()) {
