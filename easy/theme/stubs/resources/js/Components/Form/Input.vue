@@ -3,15 +3,17 @@
 </template>
 
 <script>
-export default {
-    props: ['modelValue'],
+    import { defineComponent } from 'vue'
 
-    emits: ['update:modelValue'],
+    export default defineComponent({
+        props: ['modelValue'],
 
-    methods: {
-        focus() {
-            this.$refs.input.focus()
+        emits: ['update:modelValue'],
+
+        methods: {
+            focus() {
+                this.$refs.input.focus()
+            }
         }
-    }
-}
+    })
 </script>

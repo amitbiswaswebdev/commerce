@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button.vue'
-import BreezeCheckbox from '@/Components/Checkbox.vue'
+import BreezeButton from '@/Components/Form/Button.vue'
+import BreezeCheckbox from '@/Components/Form/Checkbox.vue'
 import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Input.vue'
-import BreezeLabel from '@/Components/Label.vue'
+import BreezeInput from '@/Components/Form/Input.vue'
+import BreezeLabel from '@/Components/Form/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
 

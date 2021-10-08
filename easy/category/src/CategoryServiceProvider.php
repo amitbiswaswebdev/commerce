@@ -33,8 +33,5 @@ class CategoryServiceProvider extends ServiceProvider
                 __DIR__.'/../database/migrations/' => database_path('migrations')
             ], 'category');
         }
-        // $this->publishes([
-        //     __DIR__.'/../stubs/resources/views' => resource_path('views')
-        // ], 'customer-views');
     }
 }

@@ -18,7 +18,7 @@ class Category extends Controller
     public function index()
     {
         return Inertia::render('Category/Index',[
-                'categories'=> CategoryModel::latest()->paginate(2)
+                'categories'=> CategoryModel::latest()->paginate(10)
             ]
         );
     }

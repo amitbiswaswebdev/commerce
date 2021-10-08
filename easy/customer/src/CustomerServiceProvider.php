@@ -13,7 +13,7 @@ class CustomerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+
     }
 
     /**
@@ -26,6 +26,6 @@ class CustomerServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/customer.php');
         $this->publishes([
             __DIR__.'/../stubs/resources/views' => resource_path('views')
-        ], 'customer-views');
+        ], 'customer');
     }
 }

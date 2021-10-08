@@ -7,70 +7,55 @@
             </h2>
         </template>
 
-        <div class="container mx-auto my-12">
-            <tableLayout
-                :tableHead="tableheadData"
-                :tableData="$page.props.categories.data"
-                :pagination="$page.props.categories.links"
-                :selectable="true"
-                @selected="selectedValues = $event">
-                <template #cell-action="{ row }">
-                    Edit / Delete
-                </template>
-            </tableLayout>
+        <div class="container mx-auto my-12 flex">
+            <div class="flex-none w-64">
+                <tree-view :tasks="list" />
+            </div>
+            <div class="flex-grow">
+                <category-form />
+            </div>
         </div>
-
     </BreezeAuthenticatedLayout>
 </template>
 
 <script>
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
-import TableLayout from '@/Components/Table.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import TreeView from '@/Components/Category/Tree.vue'
+import CategoryForm from '@/Components/Category/Form.vue'
+import { Head } from '@inertiajs/inertia-vue3'
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
-        TableLayout,
+        TreeView,
+        CategoryForm
     },
     data() {
         return {
-            selectedValues: [],
-            tableheadData : [
+            list: [
                 {
-                    column: 'title',
-                    label: 'Title',
-                    align: 'text-left'
+                    name: "task 1",
+                    tasks: [
+                        {
+                        name: "task 2",
+                        tasks: []
+                        }
+                    ]
                 },
                 {
-                    column: 'slug',
-                    label: 'Slug',
-                    align: 'text-center'
+                    name: "task 3",
+                    tasks: [
+                        {
+                        name: "task 4",
+                        tasks: []
+                        }
+                    ]
                 },
                 {
-                    column: 'action',
-                    label: 'Action',
-                    align: 'text-right'
+                    name: "task 5",
+                    tasks: []
                 }
-            ],
-            tableColumnData : [
-                {
-                    name: 'John Covv',
-                    email: 'contato@johncovv.com'
-                },
-                {
-                    name: 'Michael Jackson',
-                    email: 'm_jackson@mail.com'
-                },
-                {
-                    name: 'Julia',
-                    email: 'julia@mail.com'
-                },
-                {
-                    name: 'Martin Madrazo',
-                    email: 'martin.madrazo@mail.com'
-                },
             ]
         }
     },
