@@ -2,13 +2,13 @@
     <draggable
         class="flex flex-wrap"
         tag="div"
-        :list="files"
+        :list="fileList"
         :group="{ name: 'g11' }"
         item-key="custom_id">
         <template #item="{ element }">
-            <div class="flex-none w-1/4 mb-4">
+            <div v-show="element.show" class="flex-none w-1/4 mb-4">
                 <div class="border-2 p-2 mx-2 border-gray-300 rounded-md shadow-sm">
-                    <div class="w-full h-32 preview-image" :style="{ backgroundImage: 'url(' + element.preview_url + ')'}" />
+                    <div class="w-full h-32 preview-image" :style="{ backgroundImage: 'url(' + element.url + ')'}" />
                     <div class="flex justify-between items-center">
                         <div>
                             <p>{{ trimText(element.name, 15) }}</p>
@@ -35,11 +35,12 @@
                     </label>
                     <input
                     type="file"
-                    :id="id"
                     class="hidden"
-                    @change="onInputChange"
+                    @input="onSelect"
+                    :id="id"
                     :accept="accept"
-                    :multiple="multiple">
+                    :multiple="multiple"
+                    ref="fileInput">
                 </div>
             </div>
         </template>
@@ -58,11 +59,6 @@
                 type: String,
                 required: true,
             },
-            previewUrls :{
-                type: Array,
-                required: false,
-                default: [],
-            },
             multiple: {
                 type: Boolean,
                 required: false,
@@ -77,44 +73,57 @@
                 type: Number,
                 required: false,
                 default: 2048,
-            }
-        },
-        data: () => ({
-            isDragging: false,
-            extensionArray: [],
-            files: []
-        }),
-        watch: {
-            files: {
-                handler(val, oldVal) {
-                     if (multiple) {
-                        this.$emit('getFiles', val)
-                    } else if (val.length) {
-                        this.$emit('getFiles', val[0])
-                    } else {
-                        this.$emit('getFiles', null)
-                    }
-                },
-                deep: true
+            },
+            modelValue: {
+                required: true,
             },
         },
-        created() {
-            if (this.previewUrls.length) {
-                this.files = this.previewUrls
-            }
-            this.extensionArray = this.accept.replace(/\s/g,'').split(',');
-        },
+        emits: ['update:modelValue'],
+        data: () => ({
+            fileList: [],
+            isDragging: false,
+            extensionArray: [],
+        }),
         computed:{
             canShow() {
-                if (this.files.length === 0) {
+                if (this.fileList.length === 0) {
                     return true;
-                } else if (this.files.length > 0 && this.multiple ) {
+                } else if (this.fileList.length > 0 && this.multiple ) {
                     return true;
                 }
                 return false;
             }
         },
+        watch: {
+            modelValue: {
+                handler(val, oldVal) {
+                    if (Array.isArray(val) && !val.length) {
+                        this.cretePreviewArray();
+                        this.fileList = [];
+                    }
+                },
+                deep: true
+            },
+        },
+        created () {
+            this.extensionArray = this.accept.replace(/\s/g,'').split(',');
+            this.cretePreviewArray();
+        },
         methods: {
+            focus() {
+                this.$refs.fileInput.focus()
+            },
+            cretePreviewArray() {
+                let tempArray = [];
+                if (Array.isArray(this.modelValue) && this.modelValue.length) {
+                    this.modelValue.forEach(element => {
+                        element.custom_id = tempArray.length
+                        element.show = true
+                        tempArray.push(element);
+                    });
+                }
+                this.fileList = tempArray;
+            },
             trimText(text, length) {
                 let clamp = '...';
                 let node = document.createElement('div');
@@ -131,33 +140,34 @@
                 e.preventDefault();
                 this.isDragging = false;
             },
-            onInputChange(e){
-                this.fileProcess(e.target.files);
-            },
             onDrop(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.isDragging = false;
                 this.fileProcess(e.dataTransfer.files);
             },
+            onSelect(e){
+                this.fileProcess(e.target.files);
+            },
             fileProcess(files){
                 if (!this.multiple && files.length > 1) {
                     console.log("Can not upload multiple files");
                 } else {
-                    Array.from(files).forEach((file) => this.addFile(file));
-                }
-            },
-            addFile(file) {
-                 if (this.isAcceptableFileType(file) && this.isAcceptableFileSize(file)) {
-                    if (file.type.match('image.*')) {
-                        file.preview_url = URL.createObjectURL(file);
-                    } else {
-                        // TODO: Need to load correct static preview image
-                        // according to the file type.
-                        file.preview_url = '#';
+                    Array.from(files).forEach((file) => {
+                        if (this.isAcceptableFileType(file) && this.isAcceptableFileSize(file)) {
+                            this.fileList.push({
+                                custom_id : this.fileList.length,
+                                url : (file.type.match('image.*')) ? URL.createObjectURL(file) : '#',
+                                name: file.name,
+                                size: file.size,
+                                file: file,
+                                show: true
+                            })
+                        }
+                    });
+                    if (this.fileList.length > 0) {
+                        this.$emit('update:modelValue', this.fileList)
                     }
-                    file.custom_id = this.files.length;
-                    this.files.push(file);
                 }
             },
             isAcceptableFileSize(file){
@@ -182,12 +192,16 @@
                 return found;
             },
             removeFile(element) {
-                let index = this.files.indexOf(element)
+                let index = this.fileList.indexOf(element)
                 if (index > -1) {
-                    this.files.splice(index, 1)
+                    if (element.file) {
+                        this.fileList.splice(index, 1)
+                    } else {
+                        this.fileList[index].show = false
+                    }
                 }
             }
-        },
+        }
     })
 </script>
 
