@@ -1,6 +1,6 @@
 <template>
     <BreezeValidationErrors class="mb-4" />
-    <form @submit.prevent="submit">
+    <form @submit.prevent="submit" enctype='multipart/form-data'>
         <div class="block mt-4">
             <label class="flex items-center">
                 <BreezeCheckbox name="remember" v-model:checked="form.status" />
@@ -19,8 +19,7 @@
         </div>
 
         <div class="mt-4">
-            <BreezeLabel for="banner" value="Banner" />
-            <EasyFileUpload :isMultiple="false" />
+            <EasyFileUpload id="banner" @getFiles="form.banner = $event"/>
         </div>
 
         <div class="mt-4">
@@ -36,6 +35,10 @@
         <div class="mt-4">
             <BreezeLabel for="meta_description" value="Meta Description" />
             <EasyTextArea id="meta_description" class="mt-1 block w-full" v-model="form.meta_description"/>
+        </div>
+
+        <div class="mt-4">
+            <EasyFileUpload id="meta_image" @getFiles="form.meta_image = $event" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -72,27 +75,26 @@ export default {
         canResetPassword: Boolean,
         status: String,
     },
-
     data() {
         return {
             form: this.$inertia.form({
+                id: null,
                 status: true,
                 title: '',
                 slug: '',
                 description: '',
-                banner: '',
+                banner: null,
                 meta_title: '',
                 meta_description: '',
-                meta_image: '',
+                meta_image: null,
                 parent_id: '',
             })
         }
     },
-
     methods: {
         submit() {
-            this.form.post(this.route('admin.login'), {
-                onFinish: () => this.form.reset('password'),
+            this.form.post(this.route('admin.category.store'), {
+                onSuccess: () => this.form.reset(),
             })
         }
     }

@@ -8,10 +8,11 @@ use Easy\Theme\Console\Commands\InstallTheme;
 use Easy\Theme\View\Components\AppLayout;
 use Easy\Theme\View\Components\GuestLayout;
 use Easy\Theme\Http\Middleware\HandleInertiaRequests;
-use Easy\Theme\Contracts\MergeConfigInterface;
 use Easy\Theme\Service\MergeConfig;
 use Easy\Theme\Contracts\TreeInterface;
 use Easy\Theme\Service\Tree;
+use Easy\Theme\Contracts\FileUploadInterface;
+use Easy\Theme\Service\FileUpload;
 class ThemeServiceProvider extends ServiceProvider
 {
     /**
@@ -21,8 +22,9 @@ class ThemeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(MergeConfigInterface::class, MergeConfig::class);
         $this->app->singleton(TreeInterface::class, Tree::class);
+        $this->app->singleton(FileUploadInterface::class, FileUpload::class);
+        $this->mergeConfigFileFrom(__DIR__ . '/../config/app.php', 'app');
     }
 
     /**
@@ -49,7 +51,6 @@ class ThemeServiceProvider extends ServiceProvider
                 __DIR__.'/../config/menu.php' => config_path('menu.php'),
             ], 'theme');
         }
-
     }
 
     protected function bootInertia()
@@ -57,5 +58,25 @@ class ThemeServiceProvider extends ServiceProvider
         $kernel = $this->app->make(Kernel::class);
         $kernel->appendMiddlewareToGroup('web', HandleInertiaRequests::class);
         $kernel->appendToMiddlewarePriority(HandleInertiaRequests::class);
+    }
+
+    /**
+     * mergeConfigFileFrom
+     *
+     * @param mixed $path
+     * @param mixed $key
+     * @return void
+     */
+    protected function mergeConfigFileFrom($path, $key)
+    {
+        $mergeConfigInterface = new MergeConfig();
+        $original = $this->app['config']->get($key, []);
+        $this->app['config']->set(
+            $key,
+            $mergeConfigInterface->multiLevelArrayMerge(
+                require $path,
+                $original
+            )
+        );
     }
 }

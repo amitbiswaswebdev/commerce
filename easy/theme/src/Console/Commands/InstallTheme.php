@@ -17,7 +17,7 @@ class InstallTheme extends Command
      *
      * @var string
      */
-    protected $signature = 'install:theme';
+    protected $signature = 'install:easy-theme';
 
     /**
      * The console command description.
@@ -45,7 +45,7 @@ class InstallTheme extends Command
     {
         return $this->installInertiaVueStack();
     }
-    
+
     /**
      * Install the Inertia Vue Breeze stack.
      *
@@ -55,9 +55,10 @@ class InstallTheme extends Command
     {
         // Install Inertia...
         $this->requireComposerPackages(
-            'inertiajs/inertia-laravel:^0.4.3', 
-            'laravel/sanctum:^2.6', 
-            'tightenco/ziggy:^1.0'
+            'inertiajs/inertia-laravel:^0.4.3',
+            'laravel/sanctum:^2.6',
+            'tightenco/ziggy:^1.0',
+            'intervention/image:^2.7.0',
         );
 
         // NPM Packages...
@@ -95,7 +96,7 @@ class InstallTheme extends Command
 
         (new Filesystem)->ensureDirectoryExists(resource_path('js'));
         (new Filesystem)->copyDirectory(__DIR__.self::PATH.'resources/js', resource_path('js'));
-        
+
         $this->info('Project scaffolding installed successfully.');
         $this->comment('Please execute the "npm install && npm run dev" command to build your assets.');
     }

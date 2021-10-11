@@ -32,6 +32,7 @@ class AdminServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/menu.php', 'menu'
         );
+        $this->mergeConfigFileFrom(__DIR__ . '/../config/auth.php', 'auth');
     }
 
     /**
@@ -42,9 +43,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot()
     {
         //composer config repositories.admin '{"type": "path", "url": "./package/easy/admin"}' --file composer.json
-        $this->mergeConfigFileFrom(__DIR__ . '/../config/auth.php', 'auth');
         $this->loadRoutesFrom(__DIR__.'/routes/admin.php');
-
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../stubs/resources/js' => resource_path('js'),
