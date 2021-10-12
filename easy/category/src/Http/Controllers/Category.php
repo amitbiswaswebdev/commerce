@@ -52,7 +52,6 @@ class Category extends Controller
     public function store(CategoryRequest $request)
     {
         $inputs = $request->all();
-
         $bannerImagePath = (array_key_exists('banner', $inputs)) ? $this->fileUpload->getResizedImagePath($inputs['banner'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];
         $metaImagePath = (array_key_exists('meta_image', $inputs)) ? $this->fileUpload->getResizedImagePath($inputs['meta_image'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];
         CategoryModel::create([
@@ -65,18 +64,7 @@ class Category extends Controller
             'meta_title' => $inputs['meta_title'],
             'meta_description' => $inputs['meta_description']
         ]);
-        return redirect()->back()->with('success', 'New category created');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('admin.category.index')->with('success', 'New category created');
     }
 
     /**
@@ -87,7 +75,11 @@ class Category extends Controller
      */
     public function edit($id)
     {
-        //
+        return Inertia::render('Category/Index',[
+                'categories'=> CategoryModel::latest()->paginate(10),
+                'category' => CategoryModel::findOrFail($id)
+            ]
+        );
     }
 
     /**
