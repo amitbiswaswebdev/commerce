@@ -27,8 +27,8 @@ class Category extends FormRequest
         $rule = [
             'status' => ['required', 'boolean'],
             'title' => ['required', 'string'],
-            'banner' => ['required','image','mimes:png,jpeg,jpg','max:2048'],
-            'meta_image' => ['image','mimes:png,jpeg,jpg','max:2048']
+            'banner.*.file' => ['required','image','mimes:png,jpeg,jpg','max:2048'],
+            'meta_image.*.file' => ['required','image','mimes:png,jpeg,jpg','max:2048']
         ];
         if ($this->id) {
             $rule['slug'] = ['required', 'string', Rule::unique('categories', 'slug')->ignore($this->id)];

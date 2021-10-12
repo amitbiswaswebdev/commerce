@@ -16,12 +16,15 @@ interface FileUploadInterface
      * Fallback placeholder
      */
     const NO_FILE_PLACEHOLDER_PATH = 'media/image/noImage.png';
+
     /**
-     * getTree
+     * getResizedImagePath
      *
-     * @param array $arrayList
-     * @param bool $isSortRequired
-     * @return array
+     * @param array $files
+     * @param string $retrievePath
+     * @param int $height
+     * @param bool $multiple
+     * @return string
      */
-    public function storeResizedImage(mixed $file, string $directory, int $height ) : string;
+    public function getResizedImagePath(array $files, string $retrievePath, int $height) : array;
 }

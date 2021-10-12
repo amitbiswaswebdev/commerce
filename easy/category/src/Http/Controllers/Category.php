@@ -9,6 +9,7 @@ use Inertia\Response;
 use Easy\Category\Models\Category as CategoryModel;
 use Easy\Category\Http\Requests\Category as CategoryRequest;
 use Easy\Theme\Contracts\FileUploadInterface;
+use Illuminate\Support\Facades\Log;
 class Category extends Controller
 {
     const BANNER_PATH = 'catalog/category/banner';
@@ -50,17 +51,19 @@ class Category extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $bannerImagePath = $this->getFile($request, 'banner', self::BANNER_PATH);
-        $metaImagePath = $this->getFile($request, 'meta_image', self::META_IMAGE_PATH);
+        $inputs = $request->all();
+
+        $bannerImagePath = (array_key_exists('banner', $inputs)) ? $this->fileUpload->getResizedImagePath($inputs['banner'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];
+        $metaImagePath = (array_key_exists('meta_image', $inputs)) ? $this->fileUpload->getResizedImagePath($inputs['meta_image'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];
         CategoryModel::create([
-            'status' => $request->status,
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'banner' => $bannerImagePath,
-            'description' => $request->description,
-            'meta_image' => $metaImagePath,
-            'meta_title' => $request->meta_title,
-            'meta_description' => $request->meta_description,
+            'status' => $inputs['status'],
+            'title' => $inputs['title'],
+            'slug' => $inputs['slug'],
+            'banner' => $bannerImagePath[0],
+            'description' => $inputs['description'],
+            'meta_image' => $metaImagePath[0],
+            'meta_title' => $inputs['meta_title'],
+            'meta_description' => $inputs['meta_description']
         ]);
         return redirect()->back()->with('success', 'New category created');
     }
@@ -110,14 +113,15 @@ class Category extends Controller
         //
     }
 
-    private function getFile(CategoryRequest $request, string $key, string $path) : string
-    {
-        $inputs = $request->all();
-        if (array_key_exists($key, $inputs) && $request->hasFile($key)) {
-            $path = $this->fileUpload->storeResizedImage($inputs[$key], $path, 200);
-        } else {
-            $path = $this->fileUpload::NO_FILE_PLACEHOLDER_PATH;
-        }
-        return $path;
-    }
+    // private function getFile(CategoryRequest $request, string $key, string $path) : string
+    // {
+    //     $inputs = $request->all();
+    //     $attribute = $key.'.0.file';
+    //     if (array_key_exists($key, $inputs) && $request->hasFile($attribute)) {
+    //         $path = $this->fileUpload->storeResizedImage($inputs[$key][0]['file'], $path, 200);
+    //     } else {
+    //         $path = $this->fileUpload::NO_FILE_PLACEHOLDER_PATH;
+    //     }
+    //     return $path;
+    // }
 }

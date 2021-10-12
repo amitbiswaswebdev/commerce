@@ -19,7 +19,7 @@
         </div>
 
         <div class="mt-4">
-            <EasyFileUpload id="banner" @getFiles="form.banner = $event"/>
+            <EasyFileUpload id="banner" v-model="form.banner" />
         </div>
 
         <div class="mt-4">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="mt-4">
-            <EasyFileUpload id="meta_image" @getFiles="form.meta_image = $event" />
+            <EasyFileUpload id="meta_image" v-model="form.meta_image" />
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -77,22 +77,36 @@ export default {
     },
     data() {
         return {
+            defaultObj : {
+                id : null,
+                initial_sort_index : null,
+                url : '',
+                name : '',
+                size : '',
+                file : null
+            },
             form: this.$inertia.form({
                 id: null,
                 status: true,
                 title: '',
                 slug: '',
                 description: '',
-                banner: null,
+                banner: [],
                 meta_title: '',
                 meta_description: '',
-                meta_image: null,
+                meta_image: [],
                 parent_id: '',
             })
         }
     },
     methods: {
         submit() {
+            if ( this.form.banner.length === 0) {
+                this.form.banner.push(this.defaultObj)
+            }
+            if ( this.form.meta_image.length === 0) {
+                this.form.meta_image.push(this.defaultObj)
+            }
             this.form.post(this.route('admin.category.store'), {
                 onSuccess: () => this.form.reset(),
             })

@@ -4,7 +4,7 @@
         tag="div"
         :list="fileList"
         :group="{ name: 'g11' }"
-        item-key="custom_id">
+        item-key="initial_sort_index">
         <template #item="{ element }">
             <div v-show="element.show" class="flex-none w-1/4 mb-4">
                 <div class="border-2 p-2 mx-2 border-gray-300 rounded-md shadow-sm">
@@ -97,6 +97,7 @@
         watch: {
             modelValue: {
                 handler(val, oldVal) {
+                    console.log(val);
                     if (Array.isArray(val) && !val.length) {
                         this.cretePreviewArray();
                         this.fileList = [];
@@ -117,9 +118,12 @@
                 let tempArray = [];
                 if (Array.isArray(this.modelValue) && this.modelValue.length) {
                     this.modelValue.forEach(element => {
-                        element.custom_id = tempArray.length
-                        element.show = true
-                        tempArray.push(element);
+                        if (element.id) {
+                            element.initial_sort_index = tempArray.length
+                            element.show = true
+                            element.file = null
+                            tempArray.push(element);
+                        }
                     });
                 }
                 this.fileList = tempArray;
@@ -144,6 +148,11 @@
                 e.preventDefault();
                 e.stopPropagation();
                 this.isDragging = false;
+            },
+            onDrop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.isDragging = false;
                 this.fileProcess(e.dataTransfer.files);
             },
             onSelect(e){
@@ -156,7 +165,8 @@
                     Array.from(files).forEach((file) => {
                         if (this.isAcceptableFileType(file) && this.isAcceptableFileSize(file)) {
                             this.fileList.push({
-                                custom_id : this.fileList.length,
+                                id : null,
+                                initial_sort_index : this.fileList.length,
                                 url : (file.type.match('image.*')) ? URL.createObjectURL(file) : '#',
                                 name: file.name,
                                 size: file.size,
