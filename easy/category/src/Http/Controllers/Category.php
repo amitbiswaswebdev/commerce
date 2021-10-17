@@ -103,11 +103,11 @@ class Category extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param  CategoryRequest  $request
      * @param int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         $inputs = $request->all();
         $bannerImagePath = (array_key_exists('banner', $inputs)) ? $this->fileUpload->updateResizedImagePath($inputs['banner'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];

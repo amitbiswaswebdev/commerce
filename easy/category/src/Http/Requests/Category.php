@@ -4,6 +4,7 @@ namespace Easy\Category\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Easy\Category\Rules\File as FileRules;
 
 class Category extends FormRequest
 {
@@ -24,23 +25,21 @@ class Category extends FormRequest
      */
     public function rules()
     {
+        $rule = [
+            'title' => ['required', 'string'],
+            'status' => ['required', 'boolean'],
+            'banner' => [new FileRules],
+            'meta_image' => [new FileRules],
+        ];
         if ($this->id) {
-            $rule = [
-                'id' => ['required', 'integer'],
-                'slug' => ['required', 'string', Rule::unique('categories', 'slug')->ignore($this->id)],
-                'status' => ['required', 'boolean'],
-                'title' => ['required', 'string'],
-                'banner.*.file' => ['required_without:banner.*.id', 'nullable', 'image','mimes:png,jpeg,jpg','max:2048'],
-                'meta_image.*.file' => ['required_without:banner.*.id', 'nullable', 'image','mimes:png,jpeg,jpg','max:2048']
-            ];
+            $rule['id'] = ['required', 'integer'];
+            $rule['slug'] = ['required', 'string', Rule::unique('categories', 'slug')->ignore($this->id)];
+            $rule['banner.*.file'] = ['nullable', 'required_without:banner.*.id', 'image','mimes:png,jpeg,jpg','max:2048'];
+            $rule['meta_image.*.file'] = ['nullable', 'required_without:banner.*.id', 'image','mimes:png,jpeg,jpg','max:2048'];
         } else {
-            $rule = [
-                'slug' => ['required', 'string', Rule::unique('categories', 'slug')],
-                'status' => ['required', 'boolean'],
-                'title' => ['required', 'string'],
-                'banner.*.file' => ['nullable', 'image','mimes:png,jpeg,jpg','max:2048'],
-                'meta_image.*.file' => ['nullable', 'image','mimes:png,jpeg,jpg','max:2048']
-            ];
+            $rule['slug'] = ['required', 'string', Rule::unique('categories', 'slug')];
+            $rule['banner.*.file'] = ['required', 'image','mimes:png,jpeg,jpg','max:2048'];
+            $rule['meta_image.*.file'] = ['required', 'image','mimes:png,jpeg,jpg','max:2048'];
         }
         return $rule;
     }
