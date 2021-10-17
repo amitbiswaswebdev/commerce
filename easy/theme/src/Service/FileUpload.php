@@ -93,12 +93,29 @@ class FileUpload implements FileUploadInterface
         if (sizeof($files)) {
             foreach ($files as $key => $value) {
                 if ( $value['id'] && $value['url'] !== '' && (int) $value['show'] === 0) {
-                    Storage::disk('public')->delete(str_replace("storage/", "", $value['url']));
+                    $this->deleteFileFromDirectory($value['url']);
                     array_splice($files,$key,1);
                 }
             }
         }
         $files = (sizeof($files)) ? $files : [];
         return $this->createResizedImagePath($files, $path, 300);
+    }
+
+
+    /**
+     * deleteFileFromDirectory
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function deleteFileFromDirectory(string $path) : bool
+    {
+        $filePath = str_replace("storage/", "", $path);
+        if (Storage::exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+            return true;
+        }
+        return false;
     }
 }

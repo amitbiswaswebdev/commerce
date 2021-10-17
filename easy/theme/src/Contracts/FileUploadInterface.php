@@ -37,4 +37,12 @@ interface FileUploadInterface
      * @return array
      */
     public function updateResizedImagePath(array $files, string $path, int $height) : array;
+
+    /**
+     * deleteFileFromDirectory
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function deleteFileFromDirectory(string $path) : bool;
 }
