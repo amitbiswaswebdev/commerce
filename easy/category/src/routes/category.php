@@ -7,4 +7,5 @@ Route::prefix('admin/category')->name('admin.category.')->middleware(['web','aut
     Route::get('index', [Category::class, 'index'])->name('index');
     Route::post('store', [Category::class, 'store'])->name('store');
     Route::get('edit/{id}', [Category::class, 'edit'])->name('edit');
+    Route::put('update/{id}', [Category::class, 'update'])->name('update');
 });

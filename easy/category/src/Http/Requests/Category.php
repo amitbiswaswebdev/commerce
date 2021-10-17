@@ -24,16 +24,23 @@ class Category extends FormRequest
      */
     public function rules()
     {
-        $rule = [
-            'status' => ['required', 'boolean'],
-            'title' => ['required', 'string'],
-            'banner.*.file' => ['required','image','mimes:png,jpeg,jpg','max:2048'],
-            'meta_image.*.file' => ['required','image','mimes:png,jpeg,jpg','max:2048']
-        ];
         if ($this->id) {
-            $rule['slug'] = ['required', 'string', Rule::unique('categories', 'slug')->ignore($this->id)];
+            $rule = [
+                'id' => ['required', 'integer'],
+                'slug' => ['required', 'string', Rule::unique('categories', 'slug')->ignore($this->id)],
+                'status' => ['required', 'boolean'],
+                'title' => ['required', 'string'],
+                'banner.*.file' => ['required_without:banner.*.id', 'nullable', 'image','mimes:png,jpeg,jpg','max:2048'],
+                'meta_image.*.file' => ['required_without:banner.*.id', 'nullable', 'image','mimes:png,jpeg,jpg','max:2048']
+            ];
         } else {
-            $rule['slug'] = ['required', 'string', Rule::unique('categories', 'slug')];
+            $rule = [
+                'slug' => ['required', 'string', Rule::unique('categories', 'slug')],
+                'status' => ['required', 'boolean'],
+                'title' => ['required', 'string'],
+                'banner.*.file' => ['nullable', 'image','mimes:png,jpeg,jpg','max:2048'],
+                'meta_image.*.file' => ['nullable', 'image','mimes:png,jpeg,jpg','max:2048']
+            ];
         }
         return $rule;
     }

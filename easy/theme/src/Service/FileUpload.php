@@ -5,12 +5,21 @@ namespace Easy\Theme\Service;
 use Easy\Theme\Contracts\FileUploadInterface;
 use Intervention\Image\Facades\Image;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 use SplFileInfo;
 /**
  * Tree
  */
 class FileUpload implements FileUploadInterface
 {
+    /**
+     * storeFile
+     *
+     * @param mixed $file
+     * @param string $storePath
+     * @param string $retrievePath
+     * @return string
+     */
     public function storeFile(mixed $file, string $storePath, string $retrievePath) : string
     {
         if ($file) {
@@ -23,7 +32,15 @@ class FileUpload implements FileUploadInterface
         }
     }
 
-    public function getResizedImagePath(array $files, string $path, int $height) : array
+    /**
+     * getResizedImagePath
+     *
+     * @param array $files
+     * @param string $path
+     * @param int $height
+     * @return array
+     */
+    public function createResizedImagePath(array $files, string $path, int $height) : array
     {
         $storedImagePath = [];
         if (sizeof($files)) {
@@ -41,6 +58,14 @@ class FileUpload implements FileUploadInterface
         return $storedImagePath;
     }
 
+    /**
+     * store
+     *
+     * @param mixed $file
+     * @param string $directory
+     * @param int $height
+     * @return void
+     */
     private function store(mixed $file, string $directory, int $height)
     {
         $imageName = time() .'.'. $file->getClientOriginalExtension();
@@ -52,6 +77,28 @@ class FileUpload implements FileUploadInterface
         $storePath = storage_path($directoryPath);
         (new Filesystem)->ensureDirectoryExists($storePath);
         $img->save($storePath .'/'. $imageName , 75);
-        return $directoryPath .'/'. $imageName;
+        return '/storage' .'/'. self::IMAGE_ROOT_DIRECTORY .'/'. $directory .'/'. $imageName;
+    }
+
+    /**
+     * resizedImagePath
+     *
+     * @param array $files
+     * @param string $path
+     * @param int $height
+     * @return array
+     */
+    public function updateResizedImagePath(array $files, string $path, int $height) : array
+    {
+        if (sizeof($files)) {
+            foreach ($files as $key => $value) {
+                if ( $value['id'] && $value['url'] !== '' && (int) $value['show'] === 0) {
+                    Storage::disk('public')->delete(str_replace("storage/", "", $value['url']));
+                    array_splice($files,$key,1);
+                }
+            }
+        }
+        $files = (sizeof($files)) ? $files : [];
+        return $this->createResizedImagePath($files, $path, 300);
     }
 }

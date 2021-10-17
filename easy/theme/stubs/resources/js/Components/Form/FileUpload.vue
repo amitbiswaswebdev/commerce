@@ -88,6 +88,16 @@
             canShow() {
                 if (this.fileList.length === 0) {
                     return true;
+                } else if (this.fileList.length > 0 && !this.multiple ) {
+                    let visible = 0
+                    this.fileList.forEach(element => {
+                        if (element.show) {
+                            visible ++
+                        }
+                    });
+                    if (visible === 0) {
+                        return true;
+                    }
                 } else if (this.fileList.length > 0 && this.multiple ) {
                     return true;
                 }
@@ -96,8 +106,7 @@
         },
         watch: {
             modelValue: {
-                handler(val, oldVal) {
-                    console.log(val);
+                handler(val) {
                     if (Array.isArray(val) && !val.length) {
                         this.cretePreviewArray();
                         this.fileList = [];
@@ -111,9 +120,6 @@
             this.cretePreviewArray();
         },
         methods: {
-            focus() {
-                this.$refs.fileInput.focus()
-            },
             cretePreviewArray() {
                 let tempArray = [];
                 if (Array.isArray(this.modelValue) && this.modelValue.length) {
@@ -148,11 +154,6 @@
                 e.preventDefault();
                 e.stopPropagation();
                 this.isDragging = false;
-            },
-            onDrop(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.isDragging = false;
                 this.fileProcess(e.dataTransfer.files);
             },
             onSelect(e){
@@ -164,6 +165,7 @@
                 } else {
                     Array.from(files).forEach((file) => {
                         if (this.isAcceptableFileType(file) && this.isAcceptableFileSize(file)) {
+                            //TODO: preview image other than image type
                             this.fileList.push({
                                 id : null,
                                 initial_sort_index : this.fileList.length,

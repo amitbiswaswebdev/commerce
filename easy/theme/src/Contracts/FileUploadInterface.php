@@ -7,7 +7,7 @@ interface FileUploadInterface
     /**
      * media root directory
      */
-    const MEDIA_ROOT_DIRECTORY = 'media';
+    const MEDIA_ROOT_DIRECTORY = 'app/public';
     /**
      * image root directory
      */
@@ -18,7 +18,7 @@ interface FileUploadInterface
     const NO_FILE_PLACEHOLDER_PATH = 'media/image/noImage.png';
 
     /**
-     * getResizedImagePath
+     * createResizedImagePath
      *
      * @param array $files
      * @param string $retrievePath
@@ -26,5 +26,15 @@ interface FileUploadInterface
      * @param bool $multiple
      * @return string
      */
-    public function getResizedImagePath(array $files, string $retrievePath, int $height) : array;
+    public function createResizedImagePath(array $files, string $retrievePath, int $height) : array;
+
+    /**
+     * updateResizedImagePath
+     *
+     * @param array $files
+     * @param string $path
+     * @param int $height
+     * @return array
+     */
+    public function updateResizedImagePath(array $files, string $path, int $height) : array;
 }

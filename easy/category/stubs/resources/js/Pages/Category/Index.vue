@@ -9,7 +9,11 @@
 
         <div class="container mx-auto my-12 flex">
             <div class="flex-none w-64">
-                <tree-view :tasks="list" />
+                <tree-view
+                    v-if="$page.props.categories.length"
+                    :tasks="$page.props.categories"
+                    editRoute="admin.category.edit"
+                />
             </div>
             <div class="flex-grow">
                 <category-form />
@@ -30,34 +34,6 @@ export default {
         Head,
         TreeView,
         CategoryForm
-    },
-    data() {
-        return {
-            list: [
-                {
-                    name: "task 1",
-                    tasks: [
-                        {
-                        name: "task 2",
-                        tasks: []
-                        }
-                    ]
-                },
-                {
-                    name: "task 3",
-                    tasks: [
-                        {
-                        name: "task 4",
-                        tasks: []
-                        }
-                    ]
-                },
-                {
-                    name: "task 5",
-                    tasks: []
-                }
-            ]
-        }
     },
 }
 </script>

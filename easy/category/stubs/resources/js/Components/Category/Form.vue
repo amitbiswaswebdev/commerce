@@ -58,6 +58,7 @@ import BreezeInput from '@/Components/Form/Input.vue'
 import BreezeLabel from '@/Components/Form/Label.vue'
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Inertia } from '@inertiajs/inertia'
 
 export default {
     components: {
@@ -77,13 +78,14 @@ export default {
     },
     data() {
         return {
-            defaultObj : {
+            defaultFileObj : {
                 id : null,
                 initial_sort_index : null,
                 url : '',
                 name : '',
                 size : '',
-                file : null
+                file : null,
+                show: true
             },
             form: this.$inertia.form({
                 id: null,
@@ -99,17 +101,57 @@ export default {
             })
         }
     },
+    created() {
+        if (this.$page.props.category) {
+            this.form._method = 'put'
+            this.form.id = this.$page.props.category.id
+            this.form.status = (this.$page.props.category.status) ? true : false;
+            this.form.title = this.$page.props.category.title
+            this.form.slug = this.$page.props.category.slug
+            this.form.description = this.$page.props.category.description
+            this.form.meta_title = this.$page.props.category.meta_title
+            this.form.meta_description = this.$page.props.category.meta_description
+            this.form.parent_id = this.$page.props.category.parent_id
+            this.form.banner = this.getPreviewImage(
+                this.$page.props.category.id,
+                this.$page.props.category.banner,
+                this.$page.props.category.title
+            )
+            this.form.meta_image = this.getPreviewImage(
+                this.$page.props.category.id,
+                this.$page.props.category.meta_image,
+                this.$page.props.category.meta_title
+            )
+        }
+    },
     methods: {
         submit() {
-            if ( this.form.banner.length === 0) {
-                this.form.banner.push(this.defaultObj)
+            if (this.form.banner.length === 0) {
+                this.form.banner.push(this.defaultFileObj)
             }
-            if ( this.form.meta_image.length === 0) {
-                this.form.meta_image.push(this.defaultObj)
+            if (this.form.meta_image.length === 0) {
+                this.form.meta_image.push(this.defaultFileObj)
             }
-            this.form.post(this.route('admin.category.store'), {
-                onSuccess: () => this.form.reset(),
-            })
+            if (this.form.id) {
+                Inertia.post(this.route('admin.category.update', this.form.id), this.form, {
+                    onSuccess: () => this.form.reset(),
+                })
+            } else{
+                Inertia.post(this.route('admin.category.store'), this.form, {
+                    onSuccess: () => this.form.reset(),
+                })
+            }
+        },
+        getPreviewImage(id, url, name, size = 102400){
+            return [{
+                id : id,
+                initial_sort_index : null,
+                url : url,
+                name : name,
+                size : size,
+                file : null,
+                show: true
+            }];
         }
     }
 }
