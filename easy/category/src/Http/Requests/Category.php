@@ -4,7 +4,7 @@ namespace Easy\Category\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Easy\Category\Rules\File as FileRules;
+use Easy\Category\Rules\File as RequiredFileRules;
 
 class Category extends FormRequest
 {
@@ -28,8 +28,10 @@ class Category extends FormRequest
         $rule = [
             'title' => ['required', 'string'],
             'status' => ['required', 'boolean'],
-            'banner' => [new FileRules],
-            'meta_image' => [new FileRules],
+            'banner' => [new RequiredFileRules],
+            'meta_image' => [new RequiredFileRules],
+            'banner.*' => ['required', 'array:id,initial_sort_index,url,name,size,file,show'],
+            'meta_image.*' => ['required', 'array:id,initial_sort_index,url,name,size,file,show'],
         ];
         if ($this->id) {
             $rule['id'] = ['required', 'integer'];

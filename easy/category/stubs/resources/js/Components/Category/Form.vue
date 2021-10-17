@@ -78,6 +78,15 @@ export default {
     },
     data() {
         return {
+            defaultFileObj : {
+                id : null,
+                initial_sort_index : null,
+                url : '',
+                name : '',
+                size : '',
+                file : null,
+                show: true
+            },
             form: this.$inertia.form({
                 id: null,
                 status: true,
@@ -103,7 +112,6 @@ export default {
             this.form.meta_title = this.$page.props.category.meta_title
             this.form.meta_description = this.$page.props.category.meta_description
             this.form.parent_id = this.$page.props.category.parent_id
-
             this.form.banner = this.getPreviewImage(
                 this.$page.props.category.id,
                 this.$page.props.category.banner,
@@ -118,6 +126,12 @@ export default {
     },
     methods: {
         submit() {
+            if (this.form.banner.length === 0) {
+                this.form.banner.push(this.defaultFileObj)
+            }
+            if (this.form.meta_image.length === 0) {
+                this.form.meta_image.push(this.defaultFileObj)
+            }
             if (this.form.id) {
                 Inertia.post(this.route('admin.category.update', this.form.id), this.form, {
                     onSuccess: () => this.form.reset(),
