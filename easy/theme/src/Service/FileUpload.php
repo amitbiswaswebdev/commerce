@@ -99,9 +99,8 @@ class FileUpload implements FileUploadInterface
             }
         }
         $files = (sizeof($files)) ? $files : [];
-        return $this->createResizedImagePath($files, $path, 300);
+        return $this->createResizedImagePath($files, $path, $height);
     }
-
 
     /**
      * deleteFileFromDirectory

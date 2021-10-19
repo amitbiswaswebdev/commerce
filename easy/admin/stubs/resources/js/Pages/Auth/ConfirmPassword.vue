@@ -5,38 +5,38 @@
         This is a secure area of the application. Please confirm your password before continuing.
     </div>
 
-    <BreezeValidationErrors class="mb-4" />
+    <EasyValidationErrors class="mb-4" />
 
     <form @submit.prevent="submit">
         <div>
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" autofocus />
+            <EasyLabel for="password" value="Password" />
+            <EasyInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" autofocus />
         </div>
 
         <div class="flex justify-end mt-4">
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <EasyButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Confirm
-            </BreezeButton>
+            </EasyButton>
         </div>
     </form>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Form/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Form/Input.vue'
-import BreezeLabel from '@/Components/Form/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
+import EasyButton from '@/Components/Form/Buttons/Button.vue'
+import EasyGuestLayout from '@/Layouts/Guest.vue'
+import EasyInput from '@/Components/Form/Input.vue'
+import EasyLabel from '@/Components/Form/Label.vue'
+import EasyValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head } from '@inertiajs/inertia-vue3';
 
 export default {
-    layout: BreezeGuestLayout,
+    layout: EasyGuestLayout,
 
     components: {
-        BreezeButton,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
+        EasyButton,
+        EasyInput,
+        EasyLabel,
+        EasyValidationErrors,
         Head,
     },
 

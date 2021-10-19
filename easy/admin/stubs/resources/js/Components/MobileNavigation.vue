@@ -1,9 +1,9 @@
 <template>
     <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <BreezeResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
+            <EasyResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                 Dashboard
-            </BreezeResponsiveNavLink>
+            </EasyResponsiveNavLink>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -14,9 +14,9 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <BreezeResponsiveNavLink :href="route('admin.logout')" method="post" as="button">
+                <EasyResponsiveNavLink :href="route('admin.logout')" method="post" as="button">
                     Log Out
-                </BreezeResponsiveNavLink>
+                </EasyResponsiveNavLink>
             </div>
         </div>
     </div>
@@ -24,12 +24,12 @@
 
 
 <script>
-    import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
+    import EasyResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
     import { Link } from '@inertiajs/inertia-vue3';
 
     export default {
         components: {
-            BreezeResponsiveNavLink,
+            EasyResponsiveNavLink,
             Link,
         },
 

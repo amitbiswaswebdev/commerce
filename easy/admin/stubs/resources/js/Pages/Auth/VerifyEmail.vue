@@ -11,9 +11,9 @@
 
     <form @submit.prevent="submit">
         <div class="mt-4 flex items-center justify-between">
-            <BreezeButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <EasyButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Resend Verification Email
-            </BreezeButton>
+            </EasyButton>
 
             <Link :href="route('admin.logout')" method="post" as="button" class="underline text-sm text-gray-600 hover:text-gray-900">Log Out</Link>
         </div>
@@ -21,15 +21,15 @@
 </template>
 
 <script>
-import BreezeButton from '@/Components/Form/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
+import EasyButton from '@/Components/Form/Buttons/Button.vue'
+import EasyGuestLayout from '@/Layouts/Guest.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
 export default {
-    layout: BreezeGuestLayout,
+    layout: EasyGuestLayout,
 
     components: {
-        BreezeButton,
+        EasyButton,
         Head,
         Link,
     },

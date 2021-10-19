@@ -1,74 +1,44 @@
 <template>
-    <BreezeValidationErrors class="mb-4" />
     <form @submit.prevent="submit" enctype='multipart/form-data'>
-        <div class="block mt-4">
-            <label class="flex items-center">
-                <BreezeCheckbox name="remember" v-model:checked="form.status" />
-                <span class="ml-2 text-sm text-gray-600">Is Enabled?</span>
-            </label>
-        </div>
-
-        <div>
-            <BreezeLabel for="title" value="Title" />
-            <BreezeInput id="title" type="text" class="mt-1 block w-full" v-model="form.title" required autofocus autocomplete="title" />
-        </div>
-
-        <div class="mt-4">
-            <BreezeLabel for="slug" value="Slug" />
-            <BreezeInput id="slug" type="text" class="mt-1 block w-full" v-model="form.slug" required />
-        </div>
-
-        <div class="mt-4">
-            <EasyFileUpload id="banner" v-model="form.banner" />
-        </div>
-
-        <div class="mt-4">
-            <BreezeLabel for="description" value="Description" />
-            <EasyTextArea id="description" class="mt-1 block w-full" v-model="form.description"/>
-        </div>
-
-        <div>
-            <BreezeLabel for="meta_title" value="Meta Title" />
-            <BreezeInput id="meta_title" type="text" class="mt-1 block w-full" v-model="form.meta_title" required autofocus autocomplete="meta_title" />
-        </div>
-
-        <div class="mt-4">
-            <BreezeLabel for="meta_description" value="Meta Description" />
-            <EasyTextArea id="meta_description" class="mt-1 block w-full" v-model="form.meta_description"/>
-        </div>
-
-        <div class="mt-4">
-            <EasyFileUpload id="meta_image" v-model="form.meta_image" />
-        </div>
-
+        <easy-checkbox label="TitIs Enabled?le" id="status" v-model:checked="form.status" :error="form.errors.slug" />
+        <easy-input-field label="Title" id="title" type="text" v-model="form.title" autofocus :error="form.errors.title" />
+        <easy-input-field label="Slug" id="slug" type="text" v-model="form.slug" :error="form.errors.slug" />
+        <easy-file-upload label="Banner" id="banner" v-model="form.banner" />
+        <easy-text-area label="Description" id="description" v-model="form.description" :error="form.errors.description"/>
+        <easy-input-field label="Meta Title" id="meta_title" type="text" v-model="form.meta_title" :error="form.errors.meta_title" />
+        <easy-text-area label="Meta Description" id="meta_description" v-model="form.meta_description" :error="form.errors.meta_description"/>
+        <easy-file-upload label="Meta Image" id="meta_image" v-model="form.meta_image"/>
         <div class="flex items-center justify-end mt-4">
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                {{ form.progress.percentage }}%
+            </progress>
+            <EasyButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Submit
-            </BreezeButton>
+            </EasyButton>
         </div>
     </form>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Form/Button.vue'
-import BreezeCheckbox from '@/Components/Form/Checkbox.vue'
+import EasyButton from '@/Components/Form/Buttons/Button.vue'
+import EasyCheckbox from '@/Components/Form/Checkbox.vue'
 import EasyTextArea from '@/Components/Form/TextArea.vue'
 import EasyFileUpload from '@/Components/Form/FileUpload.vue'
-import BreezeInput from '@/Components/Form/Input.vue'
-import BreezeLabel from '@/Components/Form/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
+import EasyInputField from '@/Components/Form/Input.vue'
+import EasyLabel from '@/Components/Form/Label.vue'
+import EasyValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia'
 
 export default {
     components: {
-        BreezeButton,
-        BreezeCheckbox,
-        BreezeInput,
+        EasyButton,
+        EasyCheckbox,
+        EasyInputField,
         EasyTextArea,
         EasyFileUpload,
-        BreezeLabel,
-        BreezeValidationErrors,
+        EasyLabel,
+        EasyValidationErrors,
         Head,
         Link,
     },
@@ -133,13 +103,15 @@ export default {
                 this.form.meta_image.push(this.defaultFileObj)
             }
             if (this.form.id) {
-                Inertia.post(this.route('admin.category.update', this.form.id), this.form, {
+                this.form.put(this.route('admin.category.update', this.form.id), {
+                    errorBag: 'category',
                     onSuccess: () => this.form.reset(),
-                })
+                });
             } else{
-                Inertia.post(this.route('admin.category.store'), this.form, {
+                this.form.post(this.route('admin.category.store'), {
+                    errorBag: 'category',
                     onSuccess: () => this.form.reset(),
-                })
+                });
             }
         },
         getPreviewImage(id, url, name, size = 102400){

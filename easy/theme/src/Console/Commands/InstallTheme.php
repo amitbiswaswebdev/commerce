@@ -47,7 +47,7 @@ class InstallTheme extends Command
     }
 
     /**
-     * Install the Inertia Vue Breeze stack.
+     * Install the Inertia Vue Easy stack.
      *
      * @return void
      */

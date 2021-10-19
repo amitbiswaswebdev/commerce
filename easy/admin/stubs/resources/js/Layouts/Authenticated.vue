@@ -17,7 +17,7 @@
                     <slot name="header" />
                 </div>
             </header>
-
+            <easy-notification />
             <!-- Page Content -->
             <main>
                 <slot />
@@ -29,11 +29,13 @@
 <script>
 import MobileNavigation from '@/Components/MobileNavigation.vue'
 import DesktopNavigation from '@/Components/DesktopNavigation.vue'
+import EasyNotification from '@/Components/Notification.vue'
 
 export default {
     components: {
         MobileNavigation,
         DesktopNavigation,
+        EasyNotification
     }
 }
 </script>

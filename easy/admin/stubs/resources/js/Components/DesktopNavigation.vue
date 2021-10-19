@@ -4,7 +4,7 @@
             <!-- Logo -->
             <div class="flex-shrink-0 flex items-center">
                 <Link :href="route('admin.dashboard')">
-                    <BreezeApplicationLogo class="block h-9 w-auto" />
+                    <EasyApplicationLogo class="block h-9 w-auto" />
                 </Link>
             </div>
 
@@ -15,7 +15,7 @@
         <div class="hidden sm:flex sm:items-center sm:ml-6">
             <!-- Settings Dropdown -->
             <div class="ml-3 relative">
-                <BreezeDropdown align="right" width="48">
+                <EasyDropdown align="right" width="48">
                     <template #trigger>
                         <span class="inline-flex rounded-md">
                             <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -29,11 +29,11 @@
                     </template>
 
                     <template #content>
-                        <BreezeDropdownLink :href="route('admin.logout')" method="post" as="button">
+                        <EasyDropdownLink :href="route('admin.logout')" method="post" as="button">
                             Log Out
-                        </BreezeDropdownLink>
+                        </EasyDropdownLink>
                     </template>
-                </BreezeDropdown>
+                </EasyDropdown>
             </div>
         </div>
 
@@ -50,17 +50,17 @@
 </template>
 
 <script>
-    import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue'
-    import BreezeDropdown from '@/Components/Dropdown.vue'
-    import BreezeDropdownLink from '@/Components/DropdownLink.vue'
+    import EasyApplicationLogo from '@/Components/ApplicationLogo.vue'
+    import EasyDropdown from '@/Components/Dropdown.vue'
+    import EasyDropdownLink from '@/Components/DropdownLink.vue'
     import DesktopMenu from '@/Components/DesktopMenu.vue'
     import { Link } from '@inertiajs/inertia-vue3';
 
     export default {
         components: {
-            BreezeApplicationLogo,
-            BreezeDropdown,
-            BreezeDropdownLink,
+            EasyApplicationLogo,
+            EasyDropdown,
+            EasyDropdownLink,
             DesktopMenu,
             Link,
         },

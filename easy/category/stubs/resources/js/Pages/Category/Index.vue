@@ -1,6 +1,6 @@
 <template>
     <Head title="Category" />
-    <BreezeAuthenticatedLayout>
+    <EasyAuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Category List
@@ -29,19 +29,19 @@
                 <category-form />
             </div>
         </div>
-    </BreezeAuthenticatedLayout>
+    </EasyAuthenticatedLayout>
 </template>
 
 <script>
-import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue'
+import EasyAuthenticatedLayout from '@/Layouts/Authenticated.vue'
 import TreeView from '@/Components/Category/Tree.vue'
 import CategoryForm from '@/Components/Category/Form.vue'
 import { Head } from '@inertiajs/inertia-vue3'
 import { Inertia } from '@inertiajs/inertia'
-import EasyButton from '@/Components/Form/Button.vue'
+import EasyButton from '@/Components/Form/Buttons/Button.vue'
 export default {
     components: {
-        BreezeAuthenticatedLayout,
+        EasyAuthenticatedLayout,
         Head,
         TreeView,
         CategoryForm,

@@ -1,7 +1,7 @@
 <template>
     <Head title="Log in" />
 
-    <BreezeValidationErrors class="mb-4" />
+    <EasyValidationErrors class="mb-4" />
 
     <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
         {{ status }}
@@ -9,18 +9,18 @@
 
     <form @submit.prevent="submit">
         <div>
-            <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
+            <EasyLabel for="email" value="Email" />
+            <EasyInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />
         </div>
 
         <div class="mt-4">
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
+            <EasyLabel for="password" value="Password" />
+            <EasyInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" />
         </div>
 
         <div class="block mt-4">
             <label class="flex items-center">
-                <BreezeCheckbox name="remember" v-model:checked="form.remember" />
+                <EasyCheckbox name="remember" v-model:checked="form.remember" />
                 <span class="ml-2 text-sm text-gray-600">Remember me</span>
             </label>
         </div>
@@ -30,31 +30,31 @@
                 Forgot your password?
             </Link>
 
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <EasyButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Log in
-            </BreezeButton>
+            </EasyButton>
         </div>
     </form>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Form/Button.vue'
-import BreezeCheckbox from '@/Components/Form/Checkbox.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Form/Input.vue'
-import BreezeLabel from '@/Components/Form/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
+import EasyButton from '@/Components/Form/Buttons/Button.vue'
+import EasyCheckbox from '@/Components/Form/Checkbox.vue'
+import EasyGuestLayout from '@/Layouts/Guest.vue'
+import EasyInput from '@/Components/Form/Input.vue'
+import EasyLabel from '@/Components/Form/Label.vue'
+import EasyValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
 
 export default {
-    layout: BreezeGuestLayout,
+    layout: EasyGuestLayout,
 
     components: {
-        BreezeButton,
-        BreezeCheckbox,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
+        EasyButton,
+        EasyCheckbox,
+        EasyInput,
+        EasyLabel,
+        EasyValidationErrors,
         Head,
         Link,
     },

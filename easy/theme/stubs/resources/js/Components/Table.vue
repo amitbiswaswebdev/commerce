@@ -24,7 +24,7 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot>
+        <tfoot v-if="pagination.length">
             <tr>
                 <th :colspan="getColSpan()">
                     <pagination  :links="pagination"/>

@@ -12,22 +12,31 @@
                     <i class="mdi mr-2" :class="(element.children.length) ? 'mdi-folder-outline' : ' mdi-file-outline'" aria-hidden="true"></i>
                     <span>{{ element.title }}</span>
                     <span class="flex-grow"></span>
-                    <Link v-if="element.children.length === 0" :href="route(deleteRoute, element.id)" class="mr-2" method="delete" as="button">
-                        <i class="mdi mdi-delete-outline" aria-hidden="true"></i>
-                    </Link>
-                    <Link :href="route(editRoute, element.id)">
-                        <i class="mdi mdi-pencil" aria-hidden="true"></i>
-                    </Link>
+                    <tree-action
+                        :editRoute="editRoute"
+                        :deleteRoute="deleteRoute"
+                        :children="element.children.length"
+                        :elementId="element.id" />
                 </div>
                 <nested-draggable :tasks="element.children" :editRoute="editRoute" :deleteRoute="deleteRoute"/>
             </li>
         </template>
     </draggable>
+
 </template>
 <script>
+
     import draggable from 'vuedraggable'
     import { Link } from '@inertiajs/inertia-vue3'
+    import TreeAction from '@/Components/Category/TreeAction.vue'
+
     export default {
+        name: "NestedDraggable",
+        components: {
+            Link,
+            draggable,
+            TreeAction
+        },
         props: {
             tasks: {
                 required: true,
@@ -42,10 +51,20 @@
                 type: String
             }
         },
-        components: {
-            Link,
-            draggable
+        data() {
+            return {
+                confirmingCategoryDeletion : false,
+                deleting: false,
+            }
         },
-        name: "NestedDraggable"
+         methods: {
+            confirmCategoryDeletion() {
+                this.confirmingCategoryDeletion = true
+            },
+
+            deleteCategory() {
+                console.log('delete');
+            },
+        }
     };
 </script>

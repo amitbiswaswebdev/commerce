@@ -1,58 +1,65 @@
 <template>
-    <draggable
-        class="flex flex-wrap"
-        tag="div"
-        :list="fileList"
-        :group="{ name: 'g11' }"
-        item-key="initial_sort_index">
-        <template #item="{ element }">
-            <div v-show="element.show" class="flex-none w-1/4 mb-4">
-                <div class="border-2 p-2 mx-2 border-gray-300 rounded-md shadow-sm">
-                    <div class="w-full h-32 preview-image" :style="{ backgroundImage: 'url(' + element.url + ')'}" />
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p>{{ trimText(element.name, 15) }}</p>
-                            <small class="text-xs">{{ parseFloat(element.size / 1024).toFixed(2) }} kb</small>
+    <div>
+        <easy-label :for="id" :value="label" />
+        <draggable
+            class="flex flex-wrap"
+            tag="div"
+            :list="fileList"
+            :group="{ name: 'g11' }"
+            item-key="initial_sort_index">
+            <template #item="{ element }">
+                <div v-show="element.show" class="flex-none w-1/4 mb-4">
+                    <div class="border-2 p-2 mx-2 border-gray-300 rounded-md shadow-sm">
+                        <div class="w-full h-32 preview-image" :style="{ backgroundImage: 'url(' + element.url + ')'}" />
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p>{{ trimText(element.name, 15) }}</p>
+                                <small class="text-xs">{{ parseFloat(element.size / 1024).toFixed(2) }} kb</small>
+                            </div>
+                            <i class="mdi mdi-delete-outline text-xl cursor-pointer" aria-hidden="true" @click="removeFile(element)"></i>
                         </div>
-                        <i class="mdi mdi-delete-outline text-xl cursor-pointer" aria-hidden="true" @click="removeFile(element)"></i>
                     </div>
                 </div>
-            </div>
-        </template>
-        <template v-if="canShow" #footer>
-            <div
-                @dragenter="OnDragEnter"
-                @dragleave="OnDragLeave"
-                @dragover.prevent
-                @drop="onDrop"
-                class="flex-none w-1/4 mb-4">
-                <div class="border-2 rounded-md shadow-sm mx-2"
-                    :class="{ 'border-indigo-600': isDragging, 'border-gray-300': !isDragging }">
-                    <label :for="id" class="cursor-pointer flex items-center justify-center h-48">
-                        <div class="text-8xl">
-                            <i class="mdi mdi-file-upload-outline" aria-hidden="true"></i>
-                        </div>
-                    </label>
-                    <input
-                    type="file"
-                    class="hidden"
-                    @input="onSelect"
-                    :id="id"
-                    :accept="accept"
-                    :multiple="multiple"
-                    ref="fileInput">
+            </template>
+            <template v-if="canShow" #footer>
+                <div
+                    @dragenter="OnDragEnter"
+                    @dragleave="OnDragLeave"
+                    @dragover.prevent
+                    @drop="onDrop"
+                    class="flex-none w-1/4 mb-4">
+                    <div class="border-2 rounded-md shadow-sm mx-2"
+                        :class="{ 'border-indigo-600': isDragging, 'border-gray-300': !isDragging }">
+                        <label :for="id" class="cursor-pointer flex items-center justify-center h-48">
+                            <div class="text-8xl">
+                                <i class="mdi mdi-file-upload-outline" aria-hidden="true"></i>
+                            </div>
+                        </label>
+                        <input
+                        type="file"
+                        class="hidden"
+                        @input="onSelect"
+                        :id="id"
+                        :accept="accept"
+                        :multiple="multiple"
+                        ref="fileInput">
+                    </div>
                 </div>
-            </div>
-        </template>
-    </draggable>
+            </template>
+        </draggable>
+    </div>
 </template>
 
 <script>
     import { defineComponent } from 'vue'
     import draggable from 'vuedraggable'
+    import EasyLabel from '@/Components/Form/Label.vue'
+    import EasyInputError from '@/Components/Form/InputError.vue'
     export default defineComponent({
         components: {
-            draggable
+            draggable,
+            EasyLabel,
+            EasyInputError
         },
         props: {
             id:{
@@ -77,6 +84,10 @@
             modelValue: {
                 required: true,
             },
+            label: {
+                type: String,
+                required: true
+            }
         },
         emits: ['update:modelValue'],
         data: () => ({
