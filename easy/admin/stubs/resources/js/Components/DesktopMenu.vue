@@ -22,7 +22,7 @@
                     </EasyDropdown>
                 </template>
                 <template v-else>
-                    <EasyNavLink :href="route(menuItem.route)" :active="route().current(menuItem.rout)">
+                    <EasyNavLink :href="route(menuItem.route)" :active="route().current(menuItem.route)">
                         {{menuItem.name}}
                     </EasyNavLink>
                 </template>

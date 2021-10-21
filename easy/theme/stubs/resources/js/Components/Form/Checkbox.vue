@@ -34,6 +34,11 @@ export default defineComponent({
         value: {
             default: null,
         },
+        error: {
+            type: String,
+            required: false,
+            default: null
+        },
     },
 
     computed: {

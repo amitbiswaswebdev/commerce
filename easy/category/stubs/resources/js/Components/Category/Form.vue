@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="submit" enctype='multipart/form-data'>
-        <easy-checkbox label="TitIs Enabled?le" id="status" v-model:checked="form.status" :error="form.errors.slug" />
+        <easy-checkbox label="TitIs Enabled?le" id="status" v-model:checked="form.status" :error="form.errors.status" />
         <easy-input-field label="Title" id="title" type="text" v-model="form.title" autofocus :error="form.errors.title" />
         <easy-input-field label="Slug" id="slug" type="text" v-model="form.slug" :error="form.errors.slug" />
         <easy-file-upload label="Banner" id="banner" v-model="form.banner" />
