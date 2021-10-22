@@ -32,6 +32,12 @@ class CategoryServiceProvider extends ServiceProvider
                 __DIR__.'/../stubs/resources/js' => resource_path('js'),
                 __DIR__.'/../database/migrations/' => database_path('migrations')
             ], 'category');
+            $this->publishes([
+                __DIR__.'/../database/migrations/' => database_path('migrations')
+            ], 'category-migration');
+            $this->publishes([
+                __DIR__.'/../stubs/resources/js' => resource_path('js')
+            ], 'category-views');
         }
     }
 }

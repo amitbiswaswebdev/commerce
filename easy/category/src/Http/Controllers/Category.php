@@ -38,7 +38,9 @@ class Category extends Controller
     /**
      * construct
      *
-     * @param FileUploadInterface $image
+     * @param TreeInterface $tree
+     * @param FileUploadInterface $fileUpload
+     * @param CategoryModel $categoryModel
      */
     public function __construct(
         TreeInterface $tree,

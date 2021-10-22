@@ -25,6 +25,18 @@ class ThemeServiceProvider extends ServiceProvider
         $this->app->singleton(TreeInterface::class, Tree::class);
         $this->app->singleton(FileUploadInterface::class, FileUpload::class);
         $this->mergeConfigFileFrom(__DIR__ . '/../config/app.php', 'app');
+        $replace = config('preference.replace');
+        if (is_array($replace) && sizeof($replace) ) {
+            foreach ($replace as $source => $destination) {
+                $this->app->bind($source, $destination);
+            }
+        }
+        $extends = config('preference.extends');
+        if (is_array($extends) && sizeof($extends) ) {
+            foreach ($extends as $source => $destination) {
+                $this->app->extend($source, $destination);
+            }
+        }
     }
 
     /**
@@ -49,6 +61,7 @@ class ThemeServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../stubs/resources' => resource_path('/'),
                 __DIR__.'/../config/menu.php' => config_path('menu.php'),
+                __DIR__.'/../config/preference.php' => config_path('preference.php')
             ], 'theme');
         }
     }

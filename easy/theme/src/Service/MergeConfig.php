@@ -23,4 +23,10 @@ class MergeConfig implements MergeConfigInterface
 
         return $auth;
     }
+
+
+    public function replaceExistingAndMerge()
+    {
+        # code...
+    }
 }
