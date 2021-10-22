@@ -1,33 +1,24 @@
 <?php
 
-namespace Easy\Category\Http\Controllers;
+namespace Easy\Inventory\Http\Controllers\Source;
 
-use Easy\Category\Http\Controllers\Category;
-use Easy\Category\Http\Requests\Category as CategoryRequest;
+use Easy\Inventory\Http\Controllers\Source\BaseController;
+use Easy\Inventory\Http\Requests\Source as SourceRequest;
 
-class StoreController extends Category
+class StoreController extends BaseController
 {
     /**
      * Handle the incoming request.
      *
-     * @param CategoryRequest $request
+     * @param SourceRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(CategoryRequest $request)
+    public function __invoke(SourceRequest $request)
     {
-        $inputs = $request->all();
-        $bannerImagePath = (array_key_exists('banner', $inputs)) ? $this->fileUpload->createResizedImagePath($inputs['banner'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];
-        $metaImagePath = (array_key_exists('meta_image', $inputs)) ? $this->fileUpload->createResizedImagePath($inputs['meta_image'], self::META_IMAGE_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];
-        $this->categoryModel::create([
-            'status' => $inputs['status'],
-            'title' => $inputs['title'],
-            'slug' => $inputs['slug'],
-            'banner' => $bannerImagePath[0],
-            'description' => $inputs['description'],
-            'meta_image' => $metaImagePath[0],
-            'meta_title' => $inputs['meta_title'],
-            'meta_description' => $inputs['meta_description']
+        $this->sourceModel::create([
+            'status' => $request->status,
+            'title' => $request->title
         ]);
-        return redirect()->route('admin.category.index')->with('success', 'New category created');
+        return redirect()->route('admin.source.index')->with('success', 'New Source created');
     }
 }

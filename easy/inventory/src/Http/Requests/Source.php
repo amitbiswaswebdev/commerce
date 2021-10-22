@@ -1,11 +1,9 @@
 <?php
 
-namespace Easy\Category\Http\Requests;
+namespace Easy\Inventory\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Easy\Category\Rules\File as RequiredFileRules;
-
 class Source extends FormRequest
 {
     /**
@@ -33,8 +31,13 @@ class Source extends FormRequest
     public function rules()
     {
         $rules = [
-            'title' => ['required', 'string']
+            'status' => ['nullable', 'boolean']
         ];
+        if ($this->id) {
+            $rules['title'] = ['required', 'string', Rule::unique('sources', 'title')->ignore($this->id)];
+        } else {
+            $rules['title'] = ['required', 'string', Rule::unique('sources', 'title')];
+        }
         return $rules;
     }
 }

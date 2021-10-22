@@ -1,12 +1,10 @@
 <?php
 
-namespace Easy\Category\Http\Controllers;
+namespace Easy\Inventory\Http\Controllers\Source;
 
 use Inertia\Response;
-use Easy\Category\Http\Controllers\Category;
-use Easy\Category\Events\CategoryDestroyAfter;
-
-class DeleteController extends Category
+use Easy\Inventory\Http\Controllers\Source\BaseController;
+class DeleteController extends BaseController
 {
     /**
      * Delete Category
@@ -16,16 +14,9 @@ class DeleteController extends Category
      */
     public function __invoke($id)
     {
-        $category = $this->categoryModel::where('id', $id)->first();
-        if ($category->banner != $this->fileUpload::NO_FILE_PLACEHOLDER_PATH && $category->banner != null ) {
-            $this->fileUpload->deleteFileFromDirectory($category->banner);
-        }
-        if ($category->meta_image != $this->fileUpload::NO_FILE_PLACEHOLDER_PATH && $category->meta_image != null ) {
-            $this->fileUpload->deleteFileFromDirectory($category->banner);
-        }
-        $category->delete();
-        event(new CategoryDestroyAfter($category));
-        return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully.');
+        $source = $this->sourceModel::where('id', $id)->first();
+        $source->delete();
+        return redirect()->route('admin.source.index')->with('success', 'Source deleted successfully.');
 
     }
 }

@@ -26,5 +26,5 @@ class Source extends Model
       *
       * @var array
       */
-    protected $fillable = ['title'];
+    protected $fillable = ['status','title'];
 }
