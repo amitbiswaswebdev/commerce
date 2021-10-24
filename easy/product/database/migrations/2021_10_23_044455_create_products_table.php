@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('title', 100);
             $table->text('small_description')->nullable();
             $table->text('description')->nullable();
-            $table->tinyInteger('type')->default(1);
+            $table->string('type', 30)->default('simple');
             $table->boolean('maintain_stock')->default(true);
             $table->string('slug', 100)->unique();
             $table->string('meta_title', 100)->nullable();

@@ -2,10 +2,9 @@
 
 namespace Easy\Product\Http\Controllers\Product;
 
-use Easy\Product\Http\Controllers\Product\BaseController;
 use Inertia\Response;
 use Inertia\Inertia;
-
+use Easy\Product\Http\Controllers\Product\BaseController;
 class IndexController extends BaseController
 {
     /**
@@ -15,6 +14,7 @@ class IndexController extends BaseController
     public function __invoke()
     {
         return Inertia::render('Product/Index',[
+                'types' => $this->productRepository::productType(),
                 'products' => $this->productRepository->display()
             ]
         );

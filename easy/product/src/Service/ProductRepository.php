@@ -29,6 +29,18 @@ class ProductRepository implements ProductRepositoryInterface
     }
 
     /**
+     * productType
+     *
+     * @return array
+     */
+    public static function productType() : array
+    {
+        return config('product_type', [
+            self::SIMPLE => self::SIMPLE_LABEL
+        ]);
+    }
+
+    /**
      * @inheritDoc
      **/
     public function display(array $select = self::SELECTABLE) : LengthAwarePaginator
@@ -45,5 +57,25 @@ class ProductRepository implements ProductRepositoryInterface
             ->orderBy('id', 'DESC')
             ->select($select)
             ->paginate(10);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function store(array $inputs) : Product
+    {
+        return $this->storeBase($inputs);
+    }
+
+    /**
+     * Store product base field
+     *
+     * @param array $inputs
+     * @return Product
+     */
+    private function storeBase(array $inputs) : Product
+    {
+        $product = $this->product::create($inputs);
+        return $product;
     }
 }

@@ -20,9 +20,7 @@ class BaseController extends Controller
      *
      * @param sourceModel $sourceModel
      */
-    public function __construct(
-        ProductRepositoryInterface $productRepository
-    ) {
+    public function __construct( ProductRepositoryInterface $productRepository ) {
         $this->productRepository = $productRepository;
     }
 }

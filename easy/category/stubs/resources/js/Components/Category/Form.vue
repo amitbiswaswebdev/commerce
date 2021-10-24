@@ -28,7 +28,6 @@ import EasyInputField from '@/Components/Form/Input.vue'
 import EasyLabel from '@/Components/Form/Label.vue'
 import EasyValidationErrors from '@/Components/ValidationErrors.vue'
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import { Inertia } from '@inertiajs/inertia'
 
 export default {
     components: {

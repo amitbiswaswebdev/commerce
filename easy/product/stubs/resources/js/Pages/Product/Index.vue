@@ -8,30 +8,29 @@
         </template>
 
         <div class="p-12">
+            <create-product-link />
             <easy-table
                 :tableHead="tableHead"
                 :tableData="$page.props.products.data"
                 :pagination="$page.props.products.links">
-
-                <template #cell-base_price="{ row }">
-                    {{row.prices[0].base_price}}
-                </template>
 
                 <template #cell-status="{ row }">
                     <span v-if="row.status">Active</span>
                     <span v-else>Inactive</span>
                 </template>
 
+                <template #cell-base_price="{ row }">
+                    <template v-if="row.prices.length"> {{row.prices[0].base_price}} </template>
+                    <template v-else>N/A</template>
+                </template>
+
                 <template #cell-special_price="{ row }">
-                    {{row.prices[0].special_price}}
+                    <template v-if="row.prices.length"> {{row.prices[0].base_price}} </template>
+                    <template v-else>N/A</template>
                 </template>
 
                 <template #cell-actions="{ row }">
-                    <link-button type="button" class="mr-2">
-                        <i class="mdi mdi-delete-outline" aria-hidden="true"></i>
-                        Delete {{row.id}}
-                    </link-button>
-                    <Link href="#" class="ml-4"> <i class="mdi mdi-pencil" aria-hidden="true"></i> Edit </Link>
+                    <Link href="#" class="ml-4"> <i class="mdi mdi-pencil" aria-hidden="true"></i> Edit {{row.id}} </Link>
                 </template>
 
             </easy-table>
@@ -43,12 +42,14 @@
     import EasyAuthenticatedLayout from '@/Layouts/Authenticated.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3'
     import EasyTable from '@/Components/Table.vue'
+    import CreateProductLink from '@/Components/Product/CreateProductLink.vue'
     export default {
         components: {
             EasyAuthenticatedLayout,
             Head,
             Link,
-            EasyTable
+            EasyTable,
+            CreateProductLink
         },
         data() {
             return {

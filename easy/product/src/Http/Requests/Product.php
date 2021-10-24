@@ -1,17 +1,16 @@
 <?php
 
-namespace Easy\Inventory\Http\Requests;
+namespace Easy\Product\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-class Source extends FormRequest
+class Product extends FormRequest
 {
     /**
      * The key to be used for the view error bag.
      *
      * @var string
      */
-    protected $errorBag = 'source';
+    protected $errorBag = 'simple_product';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -33,11 +32,6 @@ class Source extends FormRequest
         $rules = [
             'status' => ['nullable', 'boolean']
         ];
-        if ($this->id) {
-            $rules['title'] = ['required', 'string', Rule::unique('sources', 'title')->ignore($this->id)];
-        } else {
-            $rules['title'] = ['required', 'string', Rule::unique('sources', 'title')];
-        }
         return $rules;
     }
 }

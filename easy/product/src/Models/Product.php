@@ -37,6 +37,7 @@ class Product extends Model
         'title',
         'small_description',
         'description',
+        'type',
         'maintain_stock',
         'slug',
         'meta_title',

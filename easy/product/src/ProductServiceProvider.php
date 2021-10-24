@@ -31,7 +31,8 @@ class ProductServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/product.php');
         $this->publishes([
             __DIR__.'/../stubs/resources/js' => resource_path('js'),
-            __DIR__.'/../database/migrations/' => database_path('migrations')
+            __DIR__.'/../database/migrations/' => database_path('migrations'),
+            __DIR__.'/../config/product_type.php' => config_path('product_type.php')
         ], 'product');
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')

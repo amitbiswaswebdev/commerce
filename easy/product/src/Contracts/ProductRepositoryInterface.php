@@ -3,9 +3,21 @@
 namespace Easy\Product\Contracts;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-
+use Easy\Product\Models\Product;
 interface ProductRepositoryInterface
 {
+    /**
+     * simple product type
+     */
+    const SIMPLE = 'simple';
+    /**
+     * simple product type label
+     */
+    const SIMPLE_LABEL = 'Simple Product';
+
+    /**
+     * Product table selectable fields
+     */
     const SELECTABLE = [
         'id',
         'status',
@@ -23,10 +35,26 @@ interface ProductRepositoryInterface
     ];
 
     /**
+     * productType
+     *
+     * @return array
+     */
+    public static function productType() : array;
+
+    /**
      * display
      *
      * @param array $select
      * @return LengthAwarePaginator
      */
     public function display(array $select = self::SELECTABLE) : LengthAwarePaginator;
+
+    /**
+     * Store Simple Product
+     *
+     * @param array $inputs
+     * @return Product
+     */
+    public function store(array $inputs) : Product;
+
 }
