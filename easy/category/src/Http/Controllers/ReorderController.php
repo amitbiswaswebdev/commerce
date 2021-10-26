@@ -2,18 +2,16 @@
 
 namespace Easy\Category\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Easy\Category\Http\Controllers\Category;
 
 class ReorderController extends Category
 {
     /**
-     * Handle the incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): RedirectResponse
     {
         $requestData = $request->all();
         $this->saveReorder($requestData['treeList']);

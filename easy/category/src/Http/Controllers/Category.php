@@ -59,7 +59,7 @@ class Category extends Controller
      * @param int $parentId
      * @return void
      */
-    protected function saveReorder($tree, $parentId = 0)
+    protected function saveReorder(mixed $tree, int $parentId = 0)
     {
         foreach ($tree as $key => $item) {
             $foundCategory = $this->categoryModel::find($item['id']);

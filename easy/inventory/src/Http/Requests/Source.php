@@ -4,6 +4,8 @@ namespace Easy\Inventory\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use JetBrains\PhpStorm\ArrayShape;
+
 class Source extends FormRequest
 {
     /**
@@ -18,7 +20,7 @@ class Source extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -28,7 +30,7 @@ class Source extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    #[ArrayShape(['status' => "string[]", 'title' => "mixed"])] public function rules()
     {
         $rules = [
             'status' => ['nullable', 'boolean']

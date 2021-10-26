@@ -2,6 +2,7 @@
 
 namespace Easy\Theme;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
 use Easy\Theme\Console\Commands\InstallTheme;
@@ -43,6 +44,7 @@ class ThemeServiceProvider extends ServiceProvider
      * Bootstrap services.
      *
      * @return void
+     * @throws BindingResolutionException
      */
     public function boot()
     {
@@ -66,6 +68,9 @@ class ThemeServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     protected function bootInertia()
     {
         $kernel = $this->app->make(Kernel::class);

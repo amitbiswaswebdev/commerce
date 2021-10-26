@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use JetBrains\PhpStorm\ArrayShape;
 
 class LoginRequest extends FormRequest
 {
@@ -16,7 +17,7 @@ class LoginRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,7 +27,7 @@ class LoginRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    #[ArrayShape(['email' => "string[]", 'password' => "string[]"])] public function rules(): array
     {
         return [
             'email' => ['required', 'string', 'email'],

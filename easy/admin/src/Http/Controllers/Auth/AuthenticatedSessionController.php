@@ -3,11 +3,11 @@
 namespace Easy\Admin\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Easy\Admin\AdminServiceProvider;
@@ -33,6 +33,7 @@ class AuthenticatedSessionController extends Controller
      *
      * @param LoginRequest $request
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(LoginRequest $request): RedirectResponse
     {

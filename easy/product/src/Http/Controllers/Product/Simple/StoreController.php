@@ -6,16 +6,15 @@ use Easy\Product\Http\{
     Controllers\Product\BaseController,
     Requests\Product as ProductRequest
 };
+use Illuminate\Http\RedirectResponse;
 
 class StoreController extends BaseController
 {
     /**
-     * invoke
-     *
      * @param ProductRequest $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function __invoke(ProductRequest $request)
+    public function __invoke(ProductRequest $request): RedirectResponse
     {
         $inputs = $request->all();
         $inputs['type'] = $this->productRepository::SIMPLE;

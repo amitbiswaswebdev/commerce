@@ -16,9 +16,7 @@ class BaseController extends Controller
     protected ProductRepositoryInterface $productRepository;
 
     /**
-     * construct
-     *
-     * @param sourceModel $sourceModel
+     * @param ProductRepositoryInterface $productRepository
      */
     public function __construct( ProductRepositoryInterface $productRepository ) {
         $this->productRepository = $productRepository;

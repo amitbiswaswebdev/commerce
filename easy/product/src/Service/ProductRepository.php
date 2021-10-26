@@ -75,7 +75,6 @@ class ProductRepository implements ProductRepositoryInterface
      */
     private function storeBase(array $inputs) : Product
     {
-        $product = $this->product::create($inputs);
-        return $product;
+        return $this->product::create($inputs);
     }
 }

@@ -4,9 +4,7 @@ namespace Easy\Theme\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
-// use Illuminate\Support\Facades\Log;
 
 class InstallTheme extends Command
 {
@@ -37,13 +35,11 @@ class InstallTheme extends Command
     }
 
     /**
-     * Execute the console command.
-     *
-     * @return void
+     * @return void installInertiaVueStack
      */
     public function handle()
     {
-        return $this->installInertiaVueStack();
+        $this->installInertiaVueStack();
     }
 
     /**
@@ -127,10 +123,10 @@ class InstallTheme extends Command
      * Update the "package.json" file.
      *
      * @param  callable  $callback
-     * @param  bool  $dev
+     * @param bool $dev
      * @return void
      */
-    protected static function updateNodePackages(callable $callback, $dev = true)
+    protected static function updateNodePackages(callable $callback, bool $dev = true)
     {
         if (! file_exists(base_path('package.json'))) {
             return;

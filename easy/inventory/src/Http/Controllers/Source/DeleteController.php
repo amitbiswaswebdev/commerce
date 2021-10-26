@@ -2,17 +2,17 @@
 
 namespace Easy\Inventory\Http\Controllers\Source;
 
-use Inertia\Response;
-use Easy\Inventory\Http\Controllers\Source\BaseController;
+use Illuminate\Http\RedirectResponse;
+
 class DeleteController extends BaseController
 {
     /**
      * Delete Category
      *
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function __invoke($id)
+    public function __invoke($id): RedirectResponse
     {
         $source = $this->sourceModel::where('id', $id)->first();
         $source->delete();

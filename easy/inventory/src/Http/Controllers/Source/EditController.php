@@ -2,7 +2,6 @@
 
 namespace Easy\Inventory\Http\Controllers\Source;
 
-use Easy\Inventory\Http\Controllers\Source\BaseController;
 use Inertia\Response;
 use Inertia\Inertia;
 
@@ -14,7 +13,7 @@ class EditController extends BaseController
      * @param int $id
      * @return Response
      */
-    public function __invoke($id)
+    public function __invoke(int $id): Response
     {
         return Inertia::render('Inventory/Source/Index',[
                 'sources'=> $this->sourceModel::orderBy('id', 'DESC')->select('id', 'status', 'title')->paginate(3),

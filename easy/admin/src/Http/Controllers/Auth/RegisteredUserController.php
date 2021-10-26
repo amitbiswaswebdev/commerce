@@ -2,6 +2,7 @@
 
 namespace Easy\Admin\Http\Controllers\Auth;
 
+use Throwable;
 use App\Http\Controllers\Controller;
 use Easy\Admin\Models\Admin;
 use App\Providers\RouteServiceProvider;
@@ -11,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Log;
@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
             $admin->email = $request->email;
             $admin->password = Hash::make($request->password);
             $admin->save();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Log::debug($th);
             return back()->with('status', 'failed');
         }

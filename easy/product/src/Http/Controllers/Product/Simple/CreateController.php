@@ -9,11 +9,9 @@ use Easy\Product\Http\Controllers\Product\BaseController;
 class CreateController extends BaseController
 {
     /**
-     * invoke
-     *
      * @return Response
      */
-    public function __invoke()
+    public function __invoke(): Response
     {
         return Inertia::render('Product/Simple/Create');
     }

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Easy\Category\Models\Category as ProductCategory;
 use Easy\Product\Models\Price as ProductPrice;
 use Easy\Product\Models\Image as ProductImage;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -46,25 +48,25 @@ class Product extends Model
     ];
 
     /**
-     * Get the prices for the product.
+     * @return HasMany
      */
-    public function prices()
+    public function prices(): HasMany
     {
         return $this->hasMany(ProductPrice::class, 'product_id', 'id');
     }
 
     /**
-     * Get the images for the product.
+     * @return HasMany
      */
-    public function images()
+    public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
     /**
-     * The categories that belong to the product.
+     * @return BelongsToMany
      */
-    public function categories()
+    public function categories(): BelongsToMany
     {
         return $this->belongsToMany(ProductCategory::class,'category_products', 'product_id', 'category_id');
     }

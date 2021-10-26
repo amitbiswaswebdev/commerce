@@ -6,7 +6,10 @@ use Easy\Theme\Contracts\MergeConfigInterface;
 
 class MergeConfig implements MergeConfigInterface
 {
-    public function multiLevelArrayMerge($toMerge, $original)
+    /**
+     * @inheritDoc
+     */
+    public function multiLevelArrayMerge($toMerge, $original): array
     {
         $auth = [];
         foreach ($original as $key => $value) {
@@ -20,13 +23,6 @@ class MergeConfig implements MergeConfigInterface
                 $auth[$key] = $value;
             }
         }
-
         return $auth;
-    }
-
-
-    public function replaceExistingAndMerge()
-    {
-        # code...
     }
 }

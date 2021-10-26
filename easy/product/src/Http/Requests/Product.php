@@ -3,6 +3,8 @@
 namespace Easy\Product\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
+
 class Product extends FormRequest
 {
     /**
@@ -17,7 +19,7 @@ class Product extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,11 +29,10 @@ class Product extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    #[ArrayShape(['status' => "string[]"])] public function rules(): array
     {
-        $rules = [
+        return [
             'status' => ['nullable', 'boolean']
         ];
-        return $rules;
     }
 }

@@ -2,18 +2,17 @@
 
 namespace Easy\Inventory\Http\Controllers\Source;
 
-use Easy\Inventory\Http\Controllers\Source\BaseController;
 use Easy\Inventory\Http\Requests\Source as SourceRequest;
+use Illuminate\Http\RedirectResponse;
 
 class StoreController extends BaseController
 {
+
     /**
-     * Handle the incoming request.
-     *
      * @param SourceRequest $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function __invoke(SourceRequest $request)
+    public function __invoke(SourceRequest $request): RedirectResponse
     {
         $this->sourceModel::create([
             'status' => $request->status,

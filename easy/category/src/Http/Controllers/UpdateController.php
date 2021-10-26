@@ -2,19 +2,17 @@
 
 namespace Easy\Category\Http\Controllers;
 
-use Easy\Category\Http\Controllers\Category;
 use Easy\Category\Http\Requests\Category as CategoryRequest;
+use Illuminate\Http\RedirectResponse;
 
 class UpdateController extends Category
 {
     /**
-     * Handle the incoming request.
-     *
      * @param CategoryRequest $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function __invoke(CategoryRequest $request, $id)
+    public function __invoke(CategoryRequest $request, int $id): RedirectResponse
     {
         $inputs = $request->all();
         $bannerImagePath = (array_key_exists('banner', $inputs)) ? $this->fileUpload->updateResizedImagePath($inputs['banner'], self::BANNER_PATH, 300) : [$this->fileUpload::NO_FILE_PLACEHOLDER_PATH];

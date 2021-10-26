@@ -23,8 +23,7 @@ interface FileUploadInterface
      * @param array $files
      * @param string $retrievePath
      * @param int $height
-     * @param bool $multiple
-     * @return string
+     * @return array
      */
     public function createResizedImagePath(array $files, string $retrievePath, int $height) : array;
 

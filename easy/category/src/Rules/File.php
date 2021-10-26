@@ -3,7 +3,6 @@
 namespace Easy\Category\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Log;
 
 class File implements Rule
 {

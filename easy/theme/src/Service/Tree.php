@@ -3,6 +3,7 @@
 namespace Easy\Theme\Service;
 
 use Easy\Theme\Contracts\TreeInterface;
+
 /**
  * Tree
  */
@@ -14,7 +15,7 @@ class Tree implements TreeInterface
     public function getTree(array $arrayList,bool $isSortRequired = false) : array
     {
         $new = [];
-        if ($isSortRequired && is_array($arrayList) && sizeof($arrayList) > 1) {
+        if ($isSortRequired && sizeof($arrayList) > 1) {
             array_multisort(array_column($arrayList, 'sort_order'), SORT_ASC, $arrayList);
         }
         if (sizeof($arrayList) > 0) {
@@ -28,7 +29,13 @@ class Tree implements TreeInterface
         }
     }
 
-    private function createTree(&$arrayList, $parents){
+    /**
+     * @param $arrayList
+     * @param $parents
+     * @return array
+     */
+    private function createTree(&$arrayList, $parents): array
+    {
         $tree = [];
         foreach ($parents as $parent){
             if( isset( $arrayList[ $parent[ 'id' ] ] ) )

@@ -2,19 +2,17 @@
 
 namespace Easy\Category\Http\Controllers;
 
-use Inertia\Response;
-use Easy\Category\Http\Controllers\Category;
+
 use Easy\Category\Events\CategoryDestroyAfter;
+use Illuminate\Http\RedirectResponse;
 
 class DeleteController extends Category
 {
     /**
-     * Delete Category
-     *
      * @param int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function __invoke($id)
+    public function __invoke(int $id): RedirectResponse
     {
         $category = $this->categoryModel::where('id', $id)->first();
         if ($category->banner != $this->fileUpload::NO_FILE_PLACEHOLDER_PATH && $category->banner != null ) {

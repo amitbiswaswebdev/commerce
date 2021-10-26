@@ -22,32 +22,30 @@ class FileUpload implements FileUploadInterface
      */
     public function storeFile(mixed $file, string $storePath, string $retrievePath) : string
     {
-        if ($file) {
-            $fileNameWithExt = $file->getClientOriginalName();
-            $fileName = pathinfo($fileNameWithExt , PATHINFO_FILENAME);
-            $extension = $file->getClientOriginalExtension();
-            $newFileNameToStore = $fileName . '_' . time() . '.' . $extension;
-            $storePath = $file->storeAs('media' .'/'. $storePath, $newFileNameToStore);
-            return $retrievePath . $newFileNameToStore;
-        }
+        $fileNameWithExt = $file->getClientOriginalName();
+        $fileName = pathinfo($fileNameWithExt , PATHINFO_FILENAME);
+        $extension = $file->getClientOriginalExtension();
+        $newFileNameToStore = $fileName . '_' . time() . '.' . $extension;
+//        $storePath = $file->storeAs('media' .'/'. $storePath, $newFileNameToStore);
+        return $retrievePath . $newFileNameToStore;
     }
 
     /**
      * getResizedImagePath
      *
      * @param array $files
-     * @param string $path
+     * @param string $retrievePath
      * @param int $height
      * @return array
      */
-    public function createResizedImagePath(array $files, string $path, int $height) : array
+    public function createResizedImagePath(array $files, string $retrievePath, int $height) : array
     {
         $storedImagePath = [];
         if (sizeof($files)) {
             foreach ($files as $key => $fileObject) {
                 $uploadFile = $fileObject['file'];
-                if ($uploadFile !== null && $uploadFile instanceof SplFileInfo && $uploadFile->getPath() !== '') {
-                    $storedImagePath[$key] = $this->store($uploadFile, $path, $height);
+                if ($uploadFile instanceof SplFileInfo && $uploadFile->getPath() !== '') {
+                    $storedImagePath[$key] = $this->store($uploadFile, $retrievePath, $height);
                 } elseif (!$uploadFile && $fileObject['id'] && is_string($fileObject['url'])) {
                     $storedImagePath[$key] = $fileObject['url'];
                 }else{
@@ -59,14 +57,12 @@ class FileUpload implements FileUploadInterface
     }
 
     /**
-     * store
-     *
      * @param mixed $file
      * @param string $directory
      * @param int $height
-     * @return void
+     * @return string
      */
-    private function store(mixed $file, string $directory, int $height)
+    private function store(mixed $file, string $directory, int $height): string
     {
         $imageName = time() .'.'. $file->getClientOriginalExtension();
         $img = Image::make($file->getRealPath());

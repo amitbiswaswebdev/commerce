@@ -2,19 +2,17 @@
 
 namespace Easy\Inventory\Http\Controllers\Source;
 
-use Easy\Inventory\Http\Controllers\Source\BaseController;
 use Easy\Inventory\Http\Requests\Source as SourceRequest;
+use Illuminate\Http\RedirectResponse;
 
 class UpdateController extends BaseController
 {
     /**
-     * Handle the incoming request.
-     *
      * @param SourceRequest $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return RedirectResponse
      */
-    public function __invoke(SourceRequest $request, $id)
+    public function __invoke(SourceRequest $request, $id): RedirectResponse
     {
         $this->sourceModel::where('id', $id)->update([
             'status' => $request->status,
