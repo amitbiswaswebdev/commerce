@@ -15,7 +15,7 @@ class CreateProductAttributesTable extends Migration
     {
         Schema::create('product_attributes', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 100)->unique();
+            $table->string('code', 100)->unique()->index();
             $table->string('level', 100);
             $table->string('input', 100);
             $table->json('validation_rules')->nullable();

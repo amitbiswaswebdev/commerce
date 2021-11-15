@@ -15,7 +15,7 @@ class CreateProductAttributeGroupsTable extends Migration
     {
         Schema::create('product_attribute_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 100)->unique();
+            $table->string('code', 100)->unique()->index();
             $table->string('set_code', 100)->references('code')->on('product_attribute_sets')->constrained()->onDelete('cascade');
             $table->string('level', 100);
             $table->timestamps();
