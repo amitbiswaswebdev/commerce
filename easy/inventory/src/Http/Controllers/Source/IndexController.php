@@ -14,7 +14,7 @@ class IndexController extends BaseController
     public function __invoke(): Response
     {
         return Inertia::render('Inventory/Source/Index',[
-                'sources'=> $this->sourceModel::orderBy('id', 'DESC')->select('id', 'status', 'title')->paginate(3)
+                'sources'=> $this->sourceRepository->getList()
             ]
         );
     }

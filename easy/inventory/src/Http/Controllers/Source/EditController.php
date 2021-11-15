@@ -16,8 +16,8 @@ class EditController extends BaseController
     public function __invoke(int $id): Response
     {
         return Inertia::render('Inventory/Source/Index',[
-                'sources'=> $this->sourceModel::orderBy('id', 'DESC')->select('id', 'status', 'title')->paginate(3),
-                'source' => $this->sourceModel::findOrFail($id)
+                'sources'=> $this->sourceRepository->getList(),
+                'source' => $this->sourceRepository->getById($id)
             ]
         );
     }

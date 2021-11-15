@@ -4,6 +4,7 @@ namespace Easy\Inventory\Http\Controllers\Source;
 
 use App\Http\Controllers\Controller;
 use Easy\Inventory\Models\Source as SourceModel;
+use Easy\Inventory\Contracts\SourceRepositoryInterface;
 
 /**
  * Category
@@ -11,15 +12,19 @@ use Easy\Inventory\Models\Source as SourceModel;
 class BaseController extends Controller
 {
     protected SourceModel $sourceModel;
+    protected SourceRepositoryInterface $sourceRepository;
 
     /**
      * construct
      *
-     * @param sourceModel $sourceModel
+     * @param SourceModel $sourceModel
+     * @param SourceRepositoryInterface $sourceRepository
      */
     public function __construct(
-        SourceModel $sourceModel
+        SourceModel $sourceModel,
+        SourceRepositoryInterface $sourceRepository
     ) {
         $this->sourceModel = $sourceModel;
+        $this->sourceRepository = $sourceRepository;
     }
 }

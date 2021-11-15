@@ -3,7 +3,8 @@
 namespace Easy\Inventory;
 
 use Illuminate\Support\ServiceProvider;
-
+use Easy\Inventory\Contracts\SourceRepositoryInterface;
+use Easy\Inventory\Service\SourceRepository;
 class InventoryServiceProvider extends ServiceProvider
 {
     /**
@@ -13,6 +14,8 @@ class InventoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(SourceRepositoryInterface::class, SourceRepository::class);
+
         $this->mergeConfigFrom(
             __DIR__.'/../config/menu.php', 'menu'
         );

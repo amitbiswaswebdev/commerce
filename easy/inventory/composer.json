@@ -1,6 +1,6 @@
 {
     "name": "easy/inventory",
-    "description": "E-commerce inventory",
+    "description": "E-commerce inventory -- rename inventory to source",
     "keywords": ["laravel", "e-commerce"],
     "license": "MIT",
     "authors": [
