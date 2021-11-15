@@ -12,7 +12,7 @@ return [
         'id' => 5,
         'sort_order' => 50,
         'name' => 'Product Attributes',
-        'route' => 'admin.product.index',
+        'route' => 'admin.product.attribute.index',
         'parent_id' => 2
     ],
     [

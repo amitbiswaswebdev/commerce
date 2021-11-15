@@ -9,7 +9,7 @@ use Easy\Product\Models\ProductAttribute;
 /**
  * Tree
  */
-class ProductRepository implements AttributeRepositoryInterface
+class AttributeRepository implements AttributeRepositoryInterface
 {
     /**
      * construct

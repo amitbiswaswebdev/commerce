@@ -26,18 +26,18 @@ class ThemeServiceProvider extends ServiceProvider
         $this->app->singleton(TreeInterface::class, Tree::class);
         $this->app->singleton(FileUploadInterface::class, FileUpload::class);
         $this->mergeConfigFileFrom(__DIR__ . '/../config/app.php', 'app');
-        $replace = config('preference.replace');
+        $replace = config('preference');
         if (is_array($replace) && sizeof($replace) ) {
             foreach ($replace as $source => $destination) {
                 $this->app->bind($source, $destination);
             }
         }
-        $extends = config('preference.extends');
-        if (is_array($extends) && sizeof($extends) ) {
-            foreach ($extends as $source => $destination) {
-                $this->app->extend($source, $destination);
-            }
-        }
+        // $extends = config('preference.extends');
+        // if (is_array($extends) && sizeof($extends) ) {
+        //     foreach ($extends as $source => $destination) {
+        //         $this->app->extend($source, $destination);
+        //     }
+        // }
     }
 
     /**

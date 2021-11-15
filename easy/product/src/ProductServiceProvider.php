@@ -17,8 +17,12 @@ class ProductServiceProvider extends ServiceProvider
     {
         $this->app->singleton(ProductRepositoryInterface::class, ProductRepository::class);
         $this->mergeConfigFrom(
+            __DIR__.'/../config/preference.php', 'preference'
+        );
+        $this->mergeConfigFrom(
             __DIR__.'/../config/menu.php', 'menu'
         );
+
     }
 
     /**
