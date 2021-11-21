@@ -28,7 +28,11 @@ class AttributeRepository implements AttributeRepositoryInterface
         $this->productAttribute = $productAttribute;
     }
 
-    public function getList() : LengthAwarePaginator {
+    /**
+     * @inheritDoc
+     **/
+    public function getList(): LengthAwarePaginator
+    {
         return $this->productAttribute::orderBy('id', 'DESC')
             ->select(self::SELECTABLE)
             ->paginate(10);

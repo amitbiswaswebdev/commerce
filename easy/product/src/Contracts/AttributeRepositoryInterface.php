@@ -21,11 +21,17 @@ interface AttributeRepositoryInterface
         'user_defined',
         'default_value',
         'model_value',
+        'show_in_frontend',
         'use_in_filter',
         'show_as',
         'created_at',
         'updated_at'
     ];
 
+    /**
+     * getList
+     *
+     * @return LengthAwarePaginator
+     */
     public function getList() : LengthAwarePaginator;
 }

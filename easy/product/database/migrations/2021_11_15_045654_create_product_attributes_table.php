@@ -23,8 +23,9 @@ class CreateProductAttributesTable extends Migration
             $table->string('default_value', 100)->nullable();
             $table->json('model_value')->nullable(); //(options) like dorp down, radio, checkbox
             // front end properties
+            $table->boolean('show_in_frontend')->default(true);
             $table->boolean('use_in_filter')->default(false);
-            $table->string('show_as', 100)->nullable();
+            // $table->string('show_as', 100)->nullable();
             $table->timestamps();
         });
     }

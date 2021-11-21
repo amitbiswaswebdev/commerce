@@ -12,6 +12,8 @@ class IndexController extends BaseController
      */
     public function __invoke(): Response
     {
-        return Inertia::render('Product/Attribute/Index');
+        return Inertia::render('Product/Attribute/Index',[
+            'attributes' =>$this->attributeRepository->getList()
+        ]);
     }
 }

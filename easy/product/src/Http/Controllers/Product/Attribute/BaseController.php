@@ -11,6 +11,23 @@ use Easy\Product\Contracts\AttributeRepositoryInterface;
 class BaseController extends Controller
 {
     /**
+     * type of attributes
+     */
+    const TYPE = [
+        'text',
+        'number',
+        'textarea',
+        'toggle',
+        'date',
+        'text-select',
+        'color-select',
+        'visual-select',
+        'multi-select',
+        'image',
+        'file'
+    ];
+
+    /**
      * Attribute Repository
      */
     protected AttributeRepositoryInterface $attributeRepository;

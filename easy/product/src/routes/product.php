@@ -8,27 +8,18 @@ use Easy\Product\Http\Controllers\Product\{
     // DeleteController,
     // EditController,
     // UpdateController,
-    Attribute\IndexController as AttributeIndexController
+    Attribute\IndexController as AttributeIndexController,
+    Attribute\CreateController as AttributeCreateController
 };
 
-
-Route::prefix('admin/product')->name('admin.product.')->middleware(['web','auth:admin'])->group( function () {
+Route::prefix('admin/product')->name('admin.product.')->middleware(['web', 'auth:admin'])->group(function () {
     Route::get('index', IndexController::class)->name('index');
     Route::prefix('simple')->name('simple.')->group(function () {
         Route::get('create', CreateController::class)->name('create');
         Route::post('store', StoreController::class)->name('store');
     });
-    Route::prefix('attribute')->name('attribute.')->group( function () {
+    Route::prefix('attribute')->name('attribute.')->group(function () {
         Route::get('index', AttributeIndexController::class)->name('index');
-
-        // Route::get('edit/{id}', EditController::class)->name('edit');
-        // Route::put('update/{id}', UpdateController::class)->name('update');
-        // Route::delete('delete/{id}', DeleteController::class)->name('delete');
+        Route::get('create/{type}', AttributeCreateController::class)->name('create');
     });
-    // Route::prefix('simple')->name('simple.')->group( function () {
-    //     Route::post('store', StoreController::class)->name('store');
-    //     // Route::get('edit/{id}', EditController::class)->name('edit');
-    //     // Route::put('update/{id}', UpdateController::class)->name('update');
-    //     // Route::delete('delete/{id}', DeleteController::class)->name('delete');
-    // });
 });
