@@ -1,7 +1,11 @@
 <template>
   <div>
     <easy-label for="rule" value="Validation" />
-    <div class="select-cover relative" ref="customselect">
+    <div
+      class="select-cover relative"
+      :class="{ 'overflow-hidden': !showOptions }"
+      ref="customselect"
+    >
       <div
         class="
           mt-1
@@ -79,6 +83,22 @@ export default {
     EasyLabel,
     EasyInputError,
   },
+  props: {
+    modelValue: {
+      type: Array,
+      required: true,
+    },
+    options: {
+      type: Array,
+      required: true,
+    },
+    multipleSelect: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  emits: ["update:modelValue"],
   data() {
     return {
       multiple: false,
@@ -94,37 +114,21 @@ export default {
       },
       marginTop: 0,
       selected: [],
-      options: [
-        {
-          value: "option-1",
-          label: "Option One",
-        },
-        {
-          value: "option-2",
-          label: "Option Two",
-        },
-        {
-          value: "option-3",
-          label: "Option Three",
-        },
-        {
-          value: "option-4",
-          label: "Option Four",
-        },
-      ],
     };
+  },
+  created() {
+    this.selected = this.modelValue;
+    this.multiple = this.multipleSelect;
   },
   watch: {
     showOptions: function (val) {
       if (val) {
-        let bottomPosition =
-          this.$refs.customselect.getBoundingClientRect().bottom;
+        let bottomPosition = this.$refs.customselect.getBoundingClientRect().bottom;
         let topPosition = this.$refs.customselect.getBoundingClientRect().top;
         let screenHeight = window.innerHeight;
         let dropDownHeight = this.$refs.customDropDown.clientHeight;
         if (screenHeight - bottomPosition < dropDownHeight) {
-          this.dropDownStyle.marginTop =
-            -(dropDownHeight + 1 + (bottomPosition - topPosition)) + "px";
+          this.dropDownStyle.marginTop = -(dropDownHeight + 1 + (bottomPosition - topPosition) - 4) + "px";
           this.dropDownStyle.boxShadow = "0px -10px 10px 0px rgba(0,0,0,0.1)";
           this.dropDownStyle.borderRadius = "6px 6px 0px 0px";
           this.dropDownStyle.borderWidth = "1px 1px 0px 1px";
@@ -143,21 +147,31 @@ export default {
   },
   methods: {
     toggleOption(option) {
-      let index = null;
-      if (
-        this.selected.length &&
-        (index = this.selected.indexOf(option)) > -1
-      ) {
+      let index = this.isAlreadySelected(option);
+      if (index > -1) {
         this.selected.splice(index, 1);
       } else {
         if (this.multiple) {
           this.selected.push(option);
         } else {
           this.selected = [option];
-          this.showOptions = false;
         }
       }
-      // emit data
+      if (!this.multiple) {
+        this.showOptions = false;
+      }
+      this.$emit("update:modelValue", this.selected);
+    },
+    isAlreadySelected(option) {
+      let key = -1;
+      if (this.selected.length) {
+        this.selected.forEach((element, index) => {
+          if (element.value == option.value && element.label == option.label) {
+            key = index;
+          }
+        });
+      }
+      return key;
     },
   },
 };
