@@ -1,13 +1,10 @@
 <template>
   <form @submit.prevent="submit" enctype="multipart/form-data">
-
-    <easy-select />
-
     <easy-checkbox
       label="Show in frontend?"
-      id="show_in_frontend"
-      v-model:checked="form.show_in_frontend"
-      :error="form.errors.show_in_frontend"
+      id="show_in_frontend_features"
+      v-model:checked="form.show_in_frontend_features"
+      :error="form.errors.show_in_frontend_features"
     />
 
     <easy-checkbox
@@ -19,9 +16,9 @@
 
     <easy-checkbox
       label="Is required?"
-      id="use_in_filter"
-      v-model:checked="form.is_required"
-      :error="form.errors.is_required"
+      id="required"
+      v-model:checked="form.required"
+      :error="form.errors.required"
     />
 
     <easy-input-field
@@ -29,8 +26,8 @@
       id="code"
       type="text"
       v-model="form.code"
-      autofocus
-      :error="form.errors.level"
+      :error="form.errors.code"
+      :disabled="(form.id !== null)"
     />
 
     <easy-input-field
@@ -48,13 +45,29 @@
       v-model="form.default_value"
       :error="form.errors.default_value"
     />
+
+    <div class="flex items-center justify-end mt-4">
+      <progress
+        v-if="form.progress"
+        :value="form.progress.percentage"
+        max="100"
+      >
+        {{ form.progress.percentage }}%
+      </progress>
+      <EasyButton
+        class="ml-4"
+        :class="{ 'opacity-25': form.processing }"
+        :disabled="form.processing"
+      >
+        Submit
+      </EasyButton>
+    </div>
   </form>
 </template>
 
 <script>
 // import { computed, watch, reactive } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
-// import _ from "lodash";
 import EasyCheckbox from "@/Components/Form/Checkbox.vue";
 import EasyInputField from "@/Components/Form/Input.vue";
 import EasyTextArea from "@/Components/Form/TextArea.vue";
@@ -69,21 +82,52 @@ export default {
     EasyButton,
     EasySelect,
   },
-  setup() {
-    const defaultForm = {
-      code: "",
-      level: "",
-      default_value: "",
-      input: "text", // hidden
-      validation_rules: ["required", "min", "max"],
-      user_defined: true, // hidden
-      model_value: null, // hidden
-      show_in_frontend: true,
-      use_in_filter: true,
-      is_required: false,
+  props: {
+    formData: {
+      type: Object,
+      required: false,
+      default: {
+        id: null,
+        code: "",
+        level: "",
+        input: "",
+        required: false,
+        validations: null,
+        user_defined: true,
+        default_value: "",
+        options: null,
+        model_value: null,
+        show_in_frontend_features: true,
+        use_in_filter: 1,
+        created_at: "",
+        updated_at: "",
+      },
+    },
+  },
+  setup(props) {
+    const form = useForm(props.formData);
+
+    const submit = () => {
+      if (props.formData.id) {
+        form
+          .transform((data) => ({
+            ...data,
+            created_at: null,
+            updated_at: null,
+          }))
+          .put(route("admin.product.attribute.update", props.formData.id), {
+            errorBag: "product_attribute",
+            onSuccess: () => form.reset(),
+          });
+      } else {
+        form.post(route("admin.product.attribute.store"), {
+          errorBag: "product_attribute",
+          onSuccess: () => form.reset(),
+        });
+      }
     };
-    const form = useForm(defaultForm);
-    return { form };
+
+    return { form, submit };
   },
 };
 </script>

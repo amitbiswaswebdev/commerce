@@ -5,10 +5,7 @@
     :pagination="$page.props.attributes.links"
   >
     <template #cell-actions="{ row }">
-      <Link href="#" class="ml-4">
-        <i class="mdi mdi-pencil" aria-hidden="true"></i> Edit
-        {{ row.id }}
-      </Link>
+        <Link :href="getEditURL(row)" class="ml-4"> <i class="mdi mdi-pencil" aria-hidden="true"></i> Edit </Link>
     </template>
   </easy-table>
 </template>
@@ -51,7 +48,7 @@ export default {
         id: 5,
         align: "text-center",
         label: "Show in frontend",
-        column: "show_in_frontend",
+        column: "show_in_frontend_features",
       },
       {
         id: 7,
@@ -60,7 +57,13 @@ export default {
         column: "actions",
       },
     ];
-    return { tableHead };
+    const getEditURL = (row) => {
+      return route('admin.product.attribute.edit', {
+          type: row.input,
+          id: row.id
+      })
+    };
+    return { tableHead, getEditURL };
   },
 };
 </script>

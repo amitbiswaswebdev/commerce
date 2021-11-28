@@ -17,15 +17,16 @@ class CreateProductAttributesTable extends Migration
             $table->id();
             $table->string('code', 100)->unique()->index();
             $table->string('level', 100);
-            $table->string('input', 100);
-            $table->json('validation_rules')->nullable();
+            $table->string('input', 100); // type
+            $table->boolean('required')->default(false);
+            $table->json('validations')->nullable();
             $table->boolean('user_defined')->default(true);
             $table->string('default_value', 100)->nullable();
-            $table->json('model_value')->nullable(); //(options) like dorp down, radio, checkbox
+            $table->json('options')->nullable(); //(options) like dorp down, radio, checkbox
+            $table->string('model_value')->nullable(); // some class path from where it will get its dynamic options
             // front end properties
-            $table->boolean('show_in_frontend')->default(true);
+            $table->boolean('show_in_frontend_features')->default(true);
             $table->boolean('use_in_filter')->default(false);
-            // $table->string('show_as', 100)->nullable();
             $table->timestamps();
         });
     }

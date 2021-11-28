@@ -45,10 +45,7 @@ class SourceRepository implements SourceRepositoryInterface
      * @inheritDoc
      */
     public function getById(int $id, bool $onlyActive = false) : SourceModel {
-        $source = $this->sourceModel::findOrFail($id);
-        // if ($onlyActive && $source->status != 1) {
-        //     throw
-        // }
+        // $source = $this->sourceModel::findOrFail($id);
         return $this->sourceModel::findOrFail($id);
     }
 }
