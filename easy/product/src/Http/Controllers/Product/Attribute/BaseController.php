@@ -3,7 +3,7 @@
 namespace Easy\Product\Http\Controllers\Product\Attribute;
 
 use App\Http\Controllers\Controller;
-use Easy\Product\Contracts\AttributeRepositoryInterface;
+use Easy\Product\Contracts\Repository\AttributeInterface;
 
 /**
  * Category
@@ -30,15 +30,15 @@ class BaseController extends Controller
     /**
      * Attribute Repository
      */
-    protected AttributeRepositoryInterface $attributeRepository;
+    protected AttributeInterface $attributeRepository;
 
     /**
      * construct
      *
-     * @param AttributeRepositoryInterface $attributeRepository
+     * @param AttributeInterface $attributeRepository
      */
     public function __construct(
-        AttributeRepositoryInterface $attributeRepository
+        AttributeInterface $attributeRepository
     ) {
         $this->attributeRepository = $attributeRepository;
     }

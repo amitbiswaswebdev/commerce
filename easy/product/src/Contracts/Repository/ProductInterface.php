@@ -1,15 +1,18 @@
 <?php
 
-namespace Easy\Product\Contracts;
+namespace Easy\Product\Contracts\Repository;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Easy\Product\Models\Product;
-interface ProductRepositoryInterface
+
+interface ProductInterface
 {
+
     /**
      * simple product type
      */
     const SIMPLE = 'simple';
+
     /**
      * simple product type label
      */

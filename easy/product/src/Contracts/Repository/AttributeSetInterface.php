@@ -1,13 +1,13 @@
 <?php
 
-namespace Easy\Product\Contracts;
+namespace Easy\Product\Contracts\Repository;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Easy\Product\Models\ProductAttribute;
+use Easy\Product\Models\ProductAttributeSet;
 /**
- * AttributeRepositoryInterface
+ * AttributeSetInterface
  */
-interface AttributeRepositoryInterface
+interface AttributeSetInterface
 {
     /**
      * Product table selectable fields
@@ -16,15 +16,6 @@ interface AttributeRepositoryInterface
         'id',
         'code',
         'level',
-        'input',
-        'required',
-        'validations',
-        'user_defined',
-        'default_value',
-        'options',
-        'model_value',
-        'show_in_frontend_features',
-        'use_in_filter',
         'created_at',
         'updated_at'
     ];
@@ -33,9 +24,9 @@ interface AttributeRepositoryInterface
      * getById
      *
      * @param int $id
-     * @return productAttribute
+     * @return ProductAttributeSet
      */
-    public function getById(int $id): productAttribute;
+    public function getById(int $id): ProductAttributeSet;
 
     /**
      * getList
@@ -48,9 +39,9 @@ interface AttributeRepositoryInterface
      * store
      *
      * @param array $inputs
-     * @return productAttribute
+     * @return ProductAttributeSet
      */
-    public function store(array $inputs) : productAttribute;
+    public function store(array $inputs) : ProductAttributeSet;
 
     /**
      * update

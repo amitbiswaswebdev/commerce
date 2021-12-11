@@ -3,7 +3,7 @@
 namespace Easy\Product\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use Easy\Product\Contracts\ProductRepositoryInterface;
+use Easy\Product\Contracts\Repository\ProductInterface;
 use Easy\Inventory\Models\Source as SourceModel;
 
 /**
@@ -14,16 +14,16 @@ class BaseController extends Controller
     /**
      * product repository
      */
-    protected ProductRepositoryInterface $productRepository;
+    protected ProductInterface $productRepository;
 
     /**
      * construct
      *
-     * @param ProductRepositoryInterface $productRepository
+     * @param ProductInterface $productRepository
      * @param SourceModel $sourceModel
      */
     public function __construct(
-        ProductRepositoryInterface $productRepository,
+        ProductInterface $productRepository,
         SourceModel $sourceModel
     ) {
         $this->productRepository = $productRepository;

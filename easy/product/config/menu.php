@@ -19,7 +19,7 @@ return [
         'id' => 5,
         'sort_order' => 60,
         'name' => 'Product Attribute Sets',
-        'route' => 'admin.product.index',
+        'route' => 'admin.product.attribute.set.index',
         'parent_id' => 2
     ],
 ];

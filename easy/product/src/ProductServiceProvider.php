@@ -3,8 +3,7 @@
 namespace Easy\Product;
 
 use Illuminate\Support\ServiceProvider;
-use Easy\Product\Service\ProductRepository;
-use Easy\Product\Contracts\ProductRepositoryInterface;
+
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -15,7 +14,6 @@ class ProductServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(ProductRepositoryInterface::class, ProductRepository::class);
         $this->mergeConfigFrom(
             __DIR__.'/../config/preference.php', 'preference'
         );

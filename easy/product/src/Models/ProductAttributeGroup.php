@@ -47,8 +47,8 @@ class ProductAttributeGroup extends Model
     /**
      * @return BelongsToMany
      */
-    public function groups(): BelongsToMany
+    public function attributes(): BelongsToMany
     {
-        return $this->belongsToMany(ProductAttributeGroup::class,'product_attribute_attribute_groups', 'group_code', 'attribute_code');
+        return $this->belongsToMany(ProductAttribute::class,'product_attribute_attribute_groups', 'group_code', 'attribute_code');
     }
 }

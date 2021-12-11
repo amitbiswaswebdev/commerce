@@ -1,15 +1,15 @@
 <?php
 
-namespace Easy\Product\Service;
+namespace Easy\Product\Service\Repository;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Easy\Product\Contracts\AttributeRepositoryInterface;
+use Easy\Product\Contracts\Repository\AttributeInterface;
 use Easy\Product\Models\ProductAttribute;
 
 /**
  * Tree
  */
-class AttributeRepository implements AttributeRepositoryInterface
+class Attribute implements AttributeInterface
 {
     /**
      * construct

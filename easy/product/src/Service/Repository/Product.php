@@ -1,31 +1,31 @@
 <?php
 
-namespace Easy\Product\Service;
+namespace Easy\Product\Service\Repository;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Easy\Product\Contracts\ProductRepositoryInterface;
-use Easy\Product\Models\Product;
+use Easy\Product\Contracts\Repository\ProductInterface;
+use Easy\Product\Models\Product as ProductModel;
 
 /**
  * Tree
  */
-class ProductRepository implements ProductRepositoryInterface
+class Product implements ProductInterface
 {
     /**
      * construct
      *
-     * @param Product $product
+     * @param ProductModel $product
      */
-    protected Product $product;
+    protected ProductModel $productModel;
 
     /**
      * construct
      *
      * @param Product $product
      */
-    public function __construct(Product $product)
+    public function __construct(ProductModel $productModel)
     {
-        $this->product = $product;
+        $this->productModel = $productModel;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProductRepository implements ProductRepositoryInterface
      **/
     public function display(array $select = self::SELECTABLE) : LengthAwarePaginator
     {
-        return $this->product::with(
+        return $this->productModel::with(
             [
               "prices" => function($q) {
                  $q->where('quantity', '=', 1);
@@ -62,7 +62,7 @@ class ProductRepository implements ProductRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function store(array $inputs) : Product
+    public function store(array $inputs) : ProductModel
     {
         return $this->storeBase($inputs);
     }
@@ -71,10 +71,10 @@ class ProductRepository implements ProductRepositoryInterface
      * Store product base field
      *
      * @param array $inputs
-     * @return Product
+     * @return ProductModel
      */
-    protected function storeBase(array $inputs) : Product
+    protected function storeBase(array $inputs) : ProductModel
     {
-        return $this->product::create($inputs);
+        return $this->productModel::create($inputs);
     }
 }
